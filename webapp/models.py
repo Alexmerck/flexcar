@@ -12,14 +12,19 @@ class User(db.Model):
     events = db.relationship('Event', backref='author', lazy='dynamic')
     vehicles = db.relationship('Vehicle', backref='Name', lazy='dynamic')
 
+    def __repr__(self):
+        return '<User {}>'.format(self.username)
+        
 class Event(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     title = db.Column(db.String(140), unique = True)
     published = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     charges = db.Column(db.Integer)
-    vehicle_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    vehicle_id = db.Column(db.Integer, db.ForeignKey('vehicle.id'))
 
+    def __repr__(self):
+        return '<Event %r>'.format(self.title)
 
 class Vehicle(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -35,4 +40,4 @@ class Vehicle(db.Model):
     events = db.relationship('Event', backref='author', lazy='dynamic')
 
     def __repr__(self):
-        return '<User %r>' % self.username
+        return '<Vehicle %r>'.format(self.title)
