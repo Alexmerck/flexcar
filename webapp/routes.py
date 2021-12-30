@@ -1,9 +1,11 @@
-from flask import render_template, flash, redirect, url_for
+from flask import render_template, flash, redirect, url_for, request
 from webapp import app
 from webapp.forms import LoginForm
 from config import Config
 from flask_login import LoginManager, login_user, logout_user
 from webapp.models import User 
+from webapp.forms import CarinputForm
+
 
 @app.route('/')
 @app.route('/index')
@@ -35,3 +37,22 @@ def process_login():
 def logout():
     logout_user()
     return redirect(url_for('index'))
+@app.route('/usercars')
+def usercar():
+    user = {'username': 'testuser'}
+    carlist =[
+        {'manufacturer': 'BMW',
+        'model':'X1'},
+        {'manufacturer': 'ff',
+        'model':'X176'},
+        {'manufacturer': 'deawoo',
+        'model':'1'}
+        ]
+    return render_template('usercars.html', title = 'GARAGE', user = user, carlist = carlist)
+
+
+@app.route('/carinput')
+def сarinput():
+    title = "Добавление авто в гараж"
+    сarinput_form = CarinputForm()
+    return render_template('carinput.html', page_title=title, form=сarinput_form)

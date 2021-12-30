@@ -18,6 +18,9 @@ class User(db.Model, UserMixin):
         return check_password_hash(self.password, password)
 
 
+    def __repr__(self):
+        return '<User {}>'.format(self.username)
+        
 class Event(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     title = db.Column(db.String(140), unique = True)
@@ -26,6 +29,8 @@ class Event(db.Model):
     charges = db.Column(db.Integer)
     vehicle_id = db.Column(db.Integer, db.ForeignKey('vehicle.id'))
 
+    def __repr__(self):
+        return '<Event %r>'.format(self.title)
 
 class Vehicle(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -41,4 +46,4 @@ class Vehicle(db.Model):
     events = db.relationship('Event', backref='name', lazy='dynamic')
 
     def __repr__(self):
-        return '<User %r>' % self.username
+        return '<Vehicle %r>'.format(self.title)
