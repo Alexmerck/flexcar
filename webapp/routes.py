@@ -1,7 +1,7 @@
 from flask import render_template, flash, redirect, url_for, request
 from webapp import app
 from webapp.forms import LoginForm
-from config import Config
+from webapp.config import Config
 from flask_login import LoginManager, login_user, logout_user
 from webapp.models import User 
 from webapp.forms import CarinputForm
