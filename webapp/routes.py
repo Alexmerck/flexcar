@@ -17,6 +17,7 @@ def index():
     user = {'username': 'Alex'}
     return render_template('index.html', title='Home', user=user)
 
+
 @app.route('/login')
 def login():
     title = "Авторизация"
@@ -46,15 +47,17 @@ def logout():
 @app.route('/usercars')
 def usercar():
     user = {'username': 'testuser'}
-    carlist =[
+    carlist = [
         {'manufacturer': 'BMW',
-        'model':'X1'},
+        'model': 'X1'},
         {'manufacturer': 'ff',
-        'model':'X176'},
+        'model': 'X176'},
         {'manufacturer': 'deawoo',
-        'model':'1'}
+        'model': '1'}
         ]
-    return render_template('usercars.html', title = 'GARAGE', user = user, carlist = carlist)
+    return render_template(
+        'usercars.html', title='GARAGE', user=user, carlist=carlist
+        )
 
 
 from webapp.forms import ManufacturerForm, Car_base
@@ -87,22 +90,26 @@ def process_get_manufacturer():
         сarinput_form.manufacturer.default = manufacturer
         сarinput_form.model.choices = [
             (model.model, model.model)
-            for model in Car_base.query.filter_by(manufacturer = сarinput_form.manufacturer.data).all()
-        ] 
-        return render_template('carinput.html', page_title=title, form=сarinput_form)
-    
+            for model in Car_base.query.filter_by(
+                manufacturer=сarinput_form.manufacturer.data
+                ).all()
+        ]
+        return render_template(
+            'carinput.html', page_title=title, form=сarinput_form
+        )
 
 
-@app.route('/process_carinput', methods = ['POST'])
+@app.route('/process_carinput', methods=['POST'])
 def process_сarinput():
-    title = "Добавление авто в гараж"
     сarinput_form = CarinputForm()
     сarinput_form.model.choices = [
         (model.model, model.model)
-        for model in Car_base.query.filter_by(manufacturer = сarinput_form.manufacturer.data).all()
+        for model in Car_base.query.filter_by(
+            manufacturer=сarinput_form.manufacturer.data
+            ).all()
     ]
     if сarinput_form.validate_on_submit():
-        car =  Vehicle(
+        car = Vehicle(
             title=сarinput_form.title.data,
             manufacturer=сarinput_form.manufacturer.data,
             model=сarinput_form.model.data,
