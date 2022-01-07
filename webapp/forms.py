@@ -1,16 +1,31 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import DataRequired
-
+from wtforms import BooleanField, StringField, PasswordField, SubmitField, SubmitField, IntegerField
+from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
+from webapp.models import User 
 
 class LoginForm(FlaskForm):
-    username = StringField('Имя пользователя',validators=[DataRequired()],
-          render_kw={"class": "form-control"})
-    password = PasswordField('Пароль',validators=[DataRequired()],
-          render_kw={"class": "form-control"})
+    username = StringField('Имя пользователя',validators=[DataRequired()])
+    password = PasswordField('Пароль',validators=[DataRequired()])
     submit = SubmitField('Продолжить',render_kw={"class":"btn btn-primary"})
-from wtforms import StringField, PasswordField, SubmitField, IntegerField
-from wtforms.validators import DataRequired
+    remember_me = BooleanField('Запомнить меня', default=True, render_kw ={"class": "form-check-input"})
+
+class Signup(FlaskForm):
+    username = StringField('Введите имя пользователя', validators=[DataRequired()])
+    email = StringField('Ввети Email', validators=[DataRequired(), Email()])
+    password = PasswordField('Введите пароль', validators=[DataRequired()])
+    password2 = PasswordField(
+        'Повторите пароль', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Зарегистрироваться', render_kw={"class":"btn btn-primary"})
+
+    def validate_username(self, username):
+        user = User.query.filter_by(username=username.data).first()
+        if user is not None:
+            raise ValidationError('Такой пользователь уже существует')
+
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if user is not None:
+            raise ValidationError('Пожалуйста, укажите другой e-mail')
 
 class CarinputForm(FlaskForm):
     """сюда надо захерачить подгрузку картинки"""
@@ -23,3 +38,4 @@ class CarinputForm(FlaskForm):
     transmission_type = IntegerField('Введите тип трансмиссии (автомат/палка)', validators=[DataRequired()], render_kw={"class":"form-control"})
     body = IntegerField('Введите тип кузова авто (????)', validators=[DataRequired()], render_kw={"class":"form-control"})
     submit = SubmitField('Отправить', render_kw={"class":"btn btn-primary"})
+
