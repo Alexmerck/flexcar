@@ -16,7 +16,12 @@ from wtforms import StringField, PasswordField, SubmitField, IntegerField
 from wtforms.validators import DataRequired
 
 class ManufacturerForm(FlaskForm):
-    manufacturer = SelectField('Выберете производителя авто', 
+    manufacturer = SelectField('Выберете производителя авто',
+            choices = [
+        	(manufacturer.manufacturer, manufacturer.manufacturer)
+        	for manufacturer in Car_base.query.distinct
+        	(Car_base.manufacturer)
+        	],
             validators=[DataRequired()],  render_kw={"class":"form-control"})
     submit = SubmitField('Отправить', render_kw={"class":"btn btn-primary"})
 
@@ -43,3 +48,24 @@ class CarinputForm(FlaskForm):
             choices = ['седан','купе','хэтчбэк','родстер','универсал','кабриолет', 'внедорожник','кроссовер','пикап', 'фургон','минивэн','микроавтобус', 'тарга'],
             validators=[DataRequired()], render_kw={"class":"form-control"})
     submit = SubmitField('Отправить', render_kw={"class":"btn btn-primary"})
+
+    def __init__(self, *args, **kwargs):
+        super(CarinputForm, self).__init__(*args, **kwargs)
+        self.model.choices = [(model.model, model.model)
+        for model in Car_base.query.filter_by(
+            manufacturer=self.manufacturer.data
+            ).all()
+		]
+
+
+class VehicleForm(FlaskForm):
+    """сюда надо захерачить подгрузку картинки"""
+    title = StringField(render_kw={"class":"form-control"})
+    manufacturer = StringField(render_kw={"class":"form-control", 'readonly': True})
+    model = SelectField(render_kw={"class":"form-control"})
+    production_year = IntegerField(render_kw={"class":"form-control"})
+    engine_type = SelectField(render_kw={"class":"form-control"})
+    volume = IntegerField(render_kw={"class":"form-control"})
+    transmission_type = SelectField(render_kw={"class":"form-control"})
+    body = SelectField(render_kw={"class":"form-control"})
+    #submit = SubmitField('выбрать', render_kw={"class":"btn btn-primary"})        

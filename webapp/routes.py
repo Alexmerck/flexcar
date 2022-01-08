@@ -8,6 +8,8 @@ from webapp.models import User
 from webapp.forms import CarinputForm
 from webapp import db
 from webapp.models import Vehicle
+from webapp.forms import ManufacturerForm, Car_base
+from sqlalchemy.sql import text
 
 
 
@@ -46,6 +48,8 @@ def logout():
 
 @app.route('/usercars')
 def usercar():
+    # in this rout used only test data, in future it should be changed on real data from db table Vehicle
+    # start
     user = {'username': 'testuser'}
     carlist = [
         {'manufacturer': 'BMW',
@@ -55,45 +59,26 @@ def usercar():
         {'manufacturer': 'deawoo',
         'model': '1'}
         ]
+    # end
     return render_template(
         'usercars.html', title='GARAGE', user=user, carlist=carlist
         )
 
 
-from webapp.forms import ManufacturerForm, Car_base
-from sqlalchemy.sql import text
-
 @app.route('/get_manufacturer')
 def get_manufacturer():
     form = ManufacturerForm()
-    form.manufacturer.choices = [
-        (manufacturer.manufacturer, manufacturer.manufacturer)
-        for manufacturer in Car_base.query.distinct
-        (Car_base.manufacturer)
-    ]
-    form.manufacturer.choices.insert(0, (None, ""))
     return render_template('get_manufacturer.html', title="заполнение поля производителя автомобиля", form=form)
 
 
 @app.route('/process_get_manufacturer', methods=["POST"])
 def process_get_manufacturer():
     form = ManufacturerForm()
-    form.manufacturer.choices = [
-        (manufacturer.manufacturer, manufacturer.manufacturer)
-        for manufacturer in Car_base.query.distinct
-        (Car_base.manufacturer)
-    ]
     if form.validate_on_submit():
         manufacturer = form.manufacturer.data
         title = "Добавление авто в гараж"
         сarinput_form = CarinputForm()
         сarinput_form.manufacturer.default = manufacturer
-        сarinput_form.model.choices = [
-            (model.model, model.model)
-            for model in Car_base.query.filter_by(
-                manufacturer=сarinput_form.manufacturer.data
-                ).all()
-        ]
         return render_template(
             'carinput.html', page_title=title, form=сarinput_form
         )
@@ -102,12 +87,6 @@ def process_get_manufacturer():
 @app.route('/process_carinput', methods=['POST'])
 def process_сarinput():
     сarinput_form = CarinputForm()
-    сarinput_form.model.choices = [
-        (model.model, model.model)
-        for model in Car_base.query.filter_by(
-            manufacturer=сarinput_form.manufacturer.data
-            ).all()
-    ]
     if сarinput_form.validate_on_submit():
         car = Vehicle(
             title=сarinput_form.title.data,

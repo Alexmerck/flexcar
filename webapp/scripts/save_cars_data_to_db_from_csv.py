@@ -3,7 +3,7 @@ import csv
 from webapp import db
 from webapp.models import Car_base
 
-def read_csv(filename):
+def save_cars_data_to_db_from_csv(filename):
     with open(filename, 'r', encoding="utf-8") as f:
         fields = ['manufacturer', 'model']
         reader = csv.DictReader(f, fields,delimiter=';')
@@ -17,4 +17,4 @@ def save_car_data(row):
     db.session.commit()
 
 if __name__ == "__main__":
-    read_csv("carbase.csv")
+    save_cars_data_to_db_from_csv("carbase.csv")
