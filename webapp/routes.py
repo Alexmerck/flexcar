@@ -1,7 +1,7 @@
 from flask import render_template, flash, redirect, url_for, request
 from flask_login.utils import login_required
 from webapp import app, db
-from webapp.forms import LoginForm, Signup
+from webapp.forms import LoginForm, Signup, VehicleForm
 from flask_login import LoginManager, login_user, logout_user, current_user
 from webapp.models import User 
 from webapp.forms import CarinputForm
@@ -14,7 +14,7 @@ from webapp.models import User
 from webapp.forms import CarinputForm
 from webapp import db
 from webapp.models import Vehicle
-from webapp.forms import ManufacturerForm, Car_base
+from webapp.forms import ManufacturerForm, Car_base, VehicleForm
 
 
 
@@ -64,22 +64,11 @@ def logout():
     return redirect(url_for('index'))
 
 @app.route('/usercars')
+@login_required
 def usercar():
-    # in this rout used only test data, in future it should be changed on real data from db table Vehicle
-    # start
-    user = {'username': 'testuser'}
-    carlist = [
-        {'manufacturer': 'BMW',
-        'model': 'X1'},
-        {'manufacturer': 'ff',
-        'model': 'X176'},
-        {'manufacturer': 'deawoo',
-        'model': '1'}
-        ]
-    # end
-    return render_template(
-        'usercars.html', title='GARAGE', user=user, carlist=carlist
-        )
+    user_id = current_user.id
+    carlist =  Vehicle.query.filter_by(user_id=user_id).all()
+    return render_template('usercars.html', title='GARAGE', user=current_user, carlist=carlist)
 
 
 @app.route('/get_manufacturer')
@@ -102,10 +91,12 @@ def process_get_manufacturer():
 
 
 @app.route('/process_carinput', methods=['POST'])
-def process_сarinput():
+@login_required
+def process_сarinput():  
     сarinput_form = CarinputForm()
     if сarinput_form.validate_on_submit():
         car = Vehicle(
+            user_id= current_user.id,
             title=сarinput_form.title.data,
             manufacturer=сarinput_form.manufacturer.data,
             model=сarinput_form.model.data,
