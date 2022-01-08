@@ -22,7 +22,8 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{{ url_for('get_manufacturer')}}">Добавить авто</a>
+                    <a class="nav-link active" aria-current="page" href="{{ url_for('get_manufacturer')}}">Добавить
+                        авто</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="{{ url_for('usercar')}}">Гараж</a>
@@ -45,7 +46,7 @@
     </div>
     {% endfor %}
 
-    <h1>Привет {{username}}</h1>
+    <h1>Привет, {{current_user.username.capitalize()}}!</h1>
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
