@@ -22,9 +22,11 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href=#>Добавить авто</a>
+                    <a class="nav-link active" aria-current="page" href="{{ url_for('get_manufacturer')}}">Добавить авто</a>
                 </li>
-
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{{ url_for('usercar')}}">Гараж</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('logout') }}">Выход </a>
                 </li>

@@ -39,11 +39,20 @@ class Vehicle(db.Model):
     manufacturer = db.Column(db.String(100))
     model = db.Column(db.String(100))
     production_year = db.Column(db.Integer)
-    engine_type = db.Column (db.Integer)
+    engine_type = db.Column(db.String(100))
     volume = db.Column(db.Integer)
-    transmission_type = db.Column(db.Integer)
-    body = db.Column(db.Integer)
+    transmission_type = db.Column(db.String(100))
+    body = db.Column(db.String(100))
     events = db.relationship('Event', backref='name', lazy='dynamic')
 
     def __repr__(self):
         return '<Vehicle %r>'.format(self.title)
+
+
+class Car_base(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    manufacturer = db.Column(db.String(100))
+    model =  db.Column(db.String(100))
+
+    def __repr__(self):
+        return '<Car_base %r>'.format(self.manufacturer)
