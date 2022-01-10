@@ -1,88 +1,57 @@
-<!doctype html>
-<html lang="ru">
-
-<head>
-    <!-- Обязательные метатеги -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-
-    <title>{{ page_title }}</title>
-</head>
-
-<body>
-    <div class="conteiner">
-        <сenter>
+{% extends 'base.html' %}
+{% block main %}
+<div class="conteiner">
+    <div class="row">
+        <div class="col-4">
             <h1>{{ page_title }}</h1>
-        </сenter>
-        <div class="row">
-            <div class="col-4"></div>
-            <div class="col-4">
-                <form action="{{ url_for('process_сarinput') }}" method="post">
-                    {{ form.hidden_tag() }}
+            <form action="{{ url_for('process_сarinput') }}" method="post">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    {{ form.title.label }}<br>
+                    {{ form.title()}}
+                    <hr>
+                </div>
+                <div class="form-group">
+                    {{ form.manufacturer.label }}<br>
+                    {{ form.manufacturer}}
+                    <hr>
+                </div>
+                <div class="form-group">
+                    {{ form.model.label }}<br>
+                    {{ form.model()}}
+                    <hr>
+                </div>
+                <div class="form-group">
+                    {{ form.production_year.label }}<br>
+                    {{ form.production_year()}}
+                    <hr>
+                </div>
+                <div class="form-group">
+                    {{ form.engine_type.label }}<br>
+                    {{ form.engine_type()}}
+                    <hr>
+                </div>
+                <div class="form-group">
+                    {{ form.volume.label }}<br>
+                    {{ form.volume()}}
+                    <hr>
+                </div>
+                <div class="form-group">
+                    {{ form.transmission_type.label }}<br>
+                    {{ form.transmission_type()}}
+                    <hr>
+                </div>
+                <div class="form-group">
+                    {{ form.body.label }}<br>
+                    {{ form.body()}}
+                    <hr>
 
-
-                    <div class="form-group">
-                        {{ form.title.label }}<br>
-                        {{ form.title()}}
-                        <hr>
-                    </div>
-                    <div class="form-group">
-                        {{ form.manufacturer.label }}<br>
-                        {{ form.manufacturer}}
-                        <hr>
-                    </div>
-                    <div class="form-group">
-                        {{ form.model.label }}<br>
-                        {{ form.model()}}
-                        <hr>
-                    </div>
-                    <div class="form-group">
-                        {{ form.production_year.label }}<br>
-                        {{ form.production_year()}}
-                        <hr>
-                    </div>
-                    <div class="form-group">
-                        {{ form.engine_type.label }}<br>
-                        {{ form.engine_type()}}
-                        <hr>
-                    </div>
-                    <div class="form-group">
-                        {{ form.volume.label }}<br>
-                        {{ form.volume()}}
-                        <hr>
-                    </div>
-                    <div class="form-group">
-                        {{ form.transmission_type.label }}<br>
-                        {{ form.transmission_type()}}
-                        <hr>
-                    </div>
-                    <div class="form-group">
-                        {{ form.body.label }}<br>
-                        {{ form.body()}}
-                        <hr>
-
-                    </div>
-                    {{ form.submit() }}
-                </form>
-            </div>
-            <div class="col-4"></div>
+                </div>
+                {{ form.submit() }}
+            </form>
         </div>
+        <div class="col-4"></div>
     </div>
-    <!-- Дополнительный JavaScript; выберите один из двух! -->
+</div>
 
-    <!-- Вариант 1: Bootstrap в связке с Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-        crossorigin="anonymous"></script>
-
-    <!-- Вариант 2: Bootstrap JS отдельно от Popper
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
-    -->
-</body>
-
-</html>
+{% endblock %}

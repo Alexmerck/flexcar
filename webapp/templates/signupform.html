@@ -1,0 +1,35 @@
+<div class="wrap-input100 validate-input" data-validate="Valid email is: a@b.c">
+    <input class="input100" type="text" name="{{form.username.name}}">
+    <span class="focus-input100" data-placeholder="{{form.username.label.text}}">
+    </span>
+    {% for error in form.username.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+</div>
+
+<div class="wrap-input100 validate-input" data-validate="Valid email is: a@b.c">
+    <input class="input100" type="text" name="{{form.email.name}}">
+    <span class="focus-input100" data-placeholder="{{form.email.label.text}}">
+    </span>
+    {% for error in form.email.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+</div>
+
+<div class="wrap-input100 validate-input" data-validate="Enter password">
+    <span class="btn-show-pass">
+        <i class="zmdi zmdi-eye"></i>
+    </span>
+    <input class="input100" type="password" name="{{form.password.name}}">
+    <span class="focus-input100" data-placeholder="{{form.password.label.text}}"></span>
+
+</div>
+
+<div class="wrap-input100 validate-input" data-validate="Enter password">
+    <span class="btn-show-pass">
+        <i class="zmdi zmdi-eye"></i>
+    </span>
+    <input class="input100" type="password" name="{{form.password2.name}}">
+    <span class="focus-input100" data-placeholder="{{form.password2.label.text}}"></span>
+
+</div>

@@ -36,14 +36,7 @@
 </head>
 
 <body>
-    {% for message in get_flashed_messages() %}
-    <div class=" alert alert-warning alert-dismissible fade show" role="alert">
-
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-        </button>
-        {{message}}
-    </div>
-    {% endfor %}
+    {% include 'flash.html' %}
     <div class="limiter">
         <div class="container-login100">
             <div class="wrap-login100">
@@ -56,21 +49,7 @@
                         <i class="zmdi zmdi-font"></i>
                     </span>
 
-                    <div class="wrap-input100 validate-input" data-validate="Valid email is: a@b.c">
-                        <input class="input100" type="text" name="{{form.username.name}}">
-                        <span class="focus-input100" data-placeholder="Введите имя">
-                        </span>
-
-                    </div>
-
-                    <div class="wrap-input100 validate-input" data-validate="Enter password">
-                        <span class="btn-show-pass">
-                            <i class="zmdi zmdi-eye"></i>
-                        </span>
-                        <input class="input100" type="password" name="{{form.password.name}}">
-                        <span class="focus-input100" data-placeholder="Введите пароль"></span>
-
-                    </div>
+                    {% include 'loginform.html' %}
 
                     <div class="container-login100-form-btn">
                         <div class="wrap-login100-form-btn">
