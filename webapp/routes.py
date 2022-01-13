@@ -58,23 +58,11 @@ def logout():
     return redirect(url_for('index'))
 
 @app.route('/usercars')
+@login_required
 def usercar():
-    # in this rout used only test data, in future it should be changed on real data from db table Vehicle
-    # start
-    title = 'Flexcar. Your Garage'
-    user = {'username': 'testuser'}
-    carlist = [
-        {'manufacturer': 'BMW',
-        'model': 'X1'},
-        {'manufacturer': 'ff',
-        'model': 'X176'},
-        {'manufacturer': 'deawoo',
-        'model': '1'}
-        ]
-    # end
-    return render_template(
-        'usercars.html', title=title, user=user, carlist=carlist
-        )
+    user_id = current_user.id
+    carlist =  Vehicle.query.filter_by(user_id=user_id).all()
+    return render_template('usercars.html', title='GARAGE', user=current_user, carlist=carlist)
 
 
 @app.route('/get_manufacturer')
@@ -98,10 +86,12 @@ def process_get_manufacturer():
 
 
 @app.route('/process_carinput', methods=['POST'])
-def process_сarinput():
+@login_required
+def process_сarinput():  
     сarinput_form = CarinputForm()
     if сarinput_form.validate_on_submit():
         car = Vehicle(
+            user_id= current_user.id,
             title=сarinput_form.title.data,
             manufacturer=сarinput_form.manufacturer.data,
             model=сarinput_form.model.data,
