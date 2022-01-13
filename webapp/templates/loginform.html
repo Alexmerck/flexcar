@@ -1,0 +1,8 @@
+<div class="wrap-input100 validate-input">
+    <input class="input100" type="text" name="{{field.name}}">
+    <span class="focus-input100" data-placeholder="{{field.label.text}}">
+    </span>
+    {% for error in field.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+</div>

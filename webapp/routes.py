@@ -1,36 +1,29 @@
 from flask import render_template, flash, redirect, url_for, request
 from flask_login.utils import login_required
 from webapp import app, db
-from webapp.forms import LoginForm, Signup, VehicleForm
+from webapp.forms import LoginForm, Signup, CarinputForm, ManufacturerForm, Car_base
 from flask_login import LoginManager, login_user, logout_user, current_user
-from webapp.models import User 
-from webapp.forms import CarinputForm
+from webapp.models import User, Vehicle
 from getpass import getpass
 from sqlalchemy.orm import selectinload
-from webapp import app
-from webapp.forms import LoginForm
 from config import Config
-from webapp.models import User 
-from webapp.forms import CarinputForm
-from webapp import db
-from webapp.models import Vehicle
-from webapp.forms import ManufacturerForm, Car_base, VehicleForm
-
 
 
 @app.route('/')
 @app.route('/index')
 @login_required
+
 def index():
+    title = 'Flexcar. Easy to own'
     user = {'username': 'Alex'}
-    return render_template('index.html', title='Home', user=user)
+    return render_template('index.html', title=title, user=user)
 
 
 @app.route('/login')
 def login():
-    title = "Авторизация"
+    title = 'Flexcar. Easy to own'
     login_form = LoginForm()
-    return render_template('login.html', page_title=title, form=login_form)
+    return render_template('login.html', title=title, form=login_form)
 
 @app.route('/process-login', methods=['POST'])
 def process_login():
@@ -46,6 +39,7 @@ def process_login():
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
+    title = 'Flexcar. Easy to own'
     if current_user.is_authenticated:
        return redirect(url_for('index'))
     form = Signup()
@@ -56,7 +50,7 @@ def signup():
         db.session.commit()
         flash('Поздравляем, вы успешно зарегистрировались')
         return redirect(url_for('login'))
-    return render_template('signup.html', title='Signup', form=form)
+    return render_template('signup.html', title=title, form=form)
 
 @app.route('/logout')
 def logout():
@@ -73,8 +67,9 @@ def usercar():
 
 @app.route('/get_manufacturer')
 def get_manufacturer():
+    title = 'Заполнение поля производителя автомобиля'
     form = ManufacturerForm()
-    return render_template('get_manufacturer.html', title="заполнение поля производителя автомобиля", form=form)
+    return render_template('get_manufacturer.html', title=title, form=form)
 
 
 @app.route('/process_get_manufacturer', methods=["POST"])
@@ -86,7 +81,7 @@ def process_get_manufacturer():
         сarinput_form = CarinputForm()
         сarinput_form.manufacturer.default = manufacturer
         return render_template(
-            'carinput.html', page_title=title, form=сarinput_form
+            'carinput.html', title=title, form=сarinput_form
         )
 
 
