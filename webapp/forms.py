@@ -85,4 +85,10 @@ class VehicleForm(FlaskForm):
     volume = IntegerField(render_kw={"class":"form-control"})
     transmission_type = SelectField(render_kw={"class":"form-control"})
     body = SelectField(render_kw={"class":"form-control"})
-    #submit = SubmitField('выбрать', render_kw={"class":"btn btn-primary"})        
+    #submit = SubmitField('выбрать', render_kw={"class":"btn btn-primary"})  
+
+
+class VehicleImageForm(FlaskForm):
+	Image = StringField(render_kw={"class":"form-control"})
+	header_image = StringField(render_kw={"class":"form-control"})
+	submit = SubmitField('загрузить', render_kw={"class":"btn btn-primary"})

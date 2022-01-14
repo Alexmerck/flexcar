@@ -13,9 +13,13 @@ from config import Config
 from webapp.models import User 
 from webapp.forms import CarinputForm
 from webapp import db
-from webapp.models import Vehicle
+from webapp.models import Vehicle, ImageSet
 from webapp.forms import ManufacturerForm, Car_base, VehicleForm
 
+import imghdr, secrets
+import os
+from flask import Flask, render_template, request, redirect, url_for, abort, send_from_directory
+#from werkzeug.utils import secure_filename
 
 
 @app.route('/')
@@ -85,15 +89,21 @@ def process_get_manufacturer():
         title = "Добавление авто в гараж"
         сarinput_form = CarinputForm()
         сarinput_form.manufacturer.default = manufacturer
-        return render_template(
-            'carinput.html', page_title=title, form=сarinput_form
-        )
+        # return render_template(
+        #     'carinput.html', page_title=title, form=сarinput_form
+        # )
+        return render_template('image_upload.html', form = сarinput_form)
 
+
+@app.route('/carinput')
+@login_required
+def сarinput(): 
+    return render_template('carinput.html')
 
 @app.route('/process_carinput', methods=['POST'])
 @login_required
-def process_сarinput():  
-    сarinput_form = CarinputForm()
+def process_сarinput(form):  
+    сarinput_form = form
     if сarinput_form.validate_on_submit():
         car = Vehicle(
             user_id= current_user.id,
@@ -108,4 +118,47 @@ def process_сarinput():
         )
         db.session.add(car)
         db.session.commit()
-        return redirect(url_for('usercar'))
+        return redirect(url_for('usercars.html'))
+
+
+def validate_image(stream):
+    header = stream.read(512)
+    stream.seek(0) 
+    format = imghdr.what(None, header)
+    if not format:
+        return None
+    return '.' + (format if format != 'jpeg' else 'jpg')
+
+@app.route('/image_upload')
+def image_upload():
+    return render_template('image_upload.html')
+
+@app.route('/image_upload', methods=['POST'])
+def upload_files():
+    uploaded_file = request.files['file']
+    
+    print(uploaded_file)
+    print(uploaded_file.filename)
+    file_name = uploaded_file.filename
+    file_ext = os.path.splitext(file_name)[1].lower()
+    image_name = f"{secrets.token_hex(8)}{file_ext}"
+    print(image_name)
+    if file_ext not in Config.UPLOAD_EXTENSIONS or \
+        file_ext != validate_image(uploaded_file.stream):
+        abort(400)
+    uploaded_file.save(os.path.join(Config.UPLOAD_PATH, image_name))
+    
+    saved_picture_rout = f"{Config.UPLOAD_PATH}\{image_name}"
+    print(saved_picture_rout)
+    new_image = Vehicle(
+        vehicle_avatar = saved_picture_rout
+        )
+    print(new_image)
+    # db.session.add(new_image)
+    # db.session.commit()
+    return redirect(url_for('сarinput.html'))
+
+
+@app.route('/uploads/<filename>')
+def upload(filename):
+    return send_from_directory(Config.UPLOAD_PATH, filename)
