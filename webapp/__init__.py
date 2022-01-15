@@ -7,7 +7,6 @@ from flask_bootstrap import Bootstrap
 
 app = Flask(__name__)
 app.config.from_object(Config)
-bootstrap = Bootstrap(app)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db, compare_type=True)
 login_manager = LoginManager()
