@@ -1,5 +1,4 @@
 import csv
-
 from webapp import db
 from webapp.models import Car_base
 
