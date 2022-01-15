@@ -73,8 +73,8 @@ class CarinputForm(FlaskForm):
             manufacturer=self.manufacturer.data
             ).all()
 		]
-
-
+   
+   
 class VehicleForm(FlaskForm):
     """сюда надо захерачить подгрузку картинки"""
     title = StringField(render_kw={"class":"form-control"})

@@ -17,11 +17,9 @@
             <div class="row">
                 <div class="col-4"></div>
                 <div class="col-4">
-                    <form action = "{{ url_for('process_сarinput') }}" method="post">
-                        <!-- <a class="btn btn-primary" href="{{ url_for('image_upload') }}" role="button">загрузка фотографии</a><br> -->
+                    <form action = "{{ url_for('process_сarinput') }}" method="post" enctype="multipart/form-data">
                         {{ form.hidden_tag() }}
-                    
-
+                        <p><input type="file" name="file"></p><br>
                         <div class="form-group">
                             {{ form.title.label }}<br>
                             {{ form.title()}}<hr>

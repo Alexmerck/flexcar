@@ -12,12 +12,10 @@
 
     <title>{{ page_title }}</title>
 </head>
-
 <body>
-
     {% for car in carlist %}
     <div class="card" style="width: 18rem;">
-        <img src="{{ car.avatar }}" class="card-img-top" alt="Avatar">
+        <img src="{{ url_for('upload', filename=car.vehicle_avatar) }}" class="card-img-top" alt="Avatar">
         <div class="card-body">
             <h5 class="card-title">{{ user.username }}</h5>
             <p class="card-text">{{car.manufacturer}}</p>
