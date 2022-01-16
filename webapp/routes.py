@@ -16,7 +16,6 @@ from webapp.forms import ManufacturerForm, Car_base, VehicleForm
 import imghdr, secrets
 import os
 from flask import Flask, render_template, request, redirect, url_for, abort, send_from_directory
-#from werkzeug.utils import secure_filename
 from webapp.scripts.save_image import upload_files
 
 
