@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block main %}
+{% include 'flash.html' %}
+
+<body>
+    <form action="{{ url_for('create') }}" method="get">
+        {{form.submit}}
+    </form>
+
+    {% for i in event %}
+    <div class="card" style="width: 18rem;">
+        <img src="..." class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">{{ i.events.title }}</h5>
+            <p class="card-text">{{i.events.charges}}</p>
+            <p class="card-text">{{i.title}}</p>
+            <a href="#" class="btn btn-primary">Choose current car</a>
+        </div>
+    </div>
+
+</body>
+{% endfor %}
+{% endblock %}

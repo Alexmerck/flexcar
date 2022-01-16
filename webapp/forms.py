@@ -4,9 +4,9 @@ from wtforms import BooleanField, StringField, PasswordField, SubmitField, Integ
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
 from webapp.models import User 
 from wtforms.fields.choices import SelectField
-#from webapp import db
-from webapp.models import Car_base
-
+from webapp import db
+from webapp.models import Car_base, Vehicle
+from flask_login import  current_user
 
 class LoginForm(FlaskForm):
     username = StringField('Имя пользователя',validators=[DataRequired()])
@@ -86,3 +86,11 @@ class VehicleForm(FlaskForm):
     transmission_type = SelectField(render_kw={"class":"form-control"})
     body = SelectField(render_kw={"class":"form-control"})
     #submit = SubmitField('выбрать', render_kw={"class":"btn btn-primary"})        
+
+class EventForm(FlaskForm):
+      
+        submit = SubmitField('Добавить', render_kw={"class":"btn btn-primary"})
+        title = StringField('Введите название события', validators=[DataRequired()], render_kw={"class":"form-control"})
+        car_title = SelectField('Выберите Автомобиль',   render_kw={"class":"form-control"})
+        charges = IntegerField('Введите стоимость', validators=[DataRequired()], render_kw={"class":"form-control"})
+                

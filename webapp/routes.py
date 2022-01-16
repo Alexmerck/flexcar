@@ -1,9 +1,9 @@
 from flask import render_template, flash, redirect, url_for, request
 from flask_login.utils import login_required
 from webapp import app, db
-from webapp.forms import LoginForm, Signup, CarinputForm, ManufacturerForm, Car_base
+from webapp.forms import LoginForm, Signup, CarinputForm, ManufacturerForm, Car_base, EventForm
 from flask_login import LoginManager, login_user, logout_user, current_user
-from webapp.models import User, Vehicle
+from webapp.models import User, Vehicle, Event
 from getpass import getpass
 from sqlalchemy.orm import selectinload
 from config import Config
@@ -104,3 +104,52 @@ def process_сarinput():
         db.session.add(car)
         db.session.commit()
         return redirect(url_for('usercar'))
+
+
+@app.route ('/events')
+@login_required
+def events():
+    form = EventForm()
+    title = 'Flexcar. Easy to own'
+    user_id = current_user.id
+    vehicle = Vehicle.query.filter_by(user_id=user_id).all()
+    #events = Event.query.filter_by(user_id=user_id).all()
+    event = []
+    try:
+        event = Vehicle.query.all()
+    except:
+        print ('ошибка доступа к БД')
+    if vehicle:
+        if event == None:
+            flash('Вы еще не добавили ни одного события')  
+        return render_template('events.html', title=title, form=form, user=current_user, event=event)
+        
+    flash('Чтобы добавлять события, необходимо сначала добавить автомобиль')
+    return redirect(url_for('index'))
+    
+
+@app.route ('/create_event')
+@login_required
+def create():
+    form = EventForm()
+    title = 'Flexcar. Easy to own'
+    available_vehicles=db.session.query(Vehicle).filter(Vehicle.user_id == current_user.id).all()
+    form.car_title.choices = [(i.id, i.title) for i in available_vehicles]
+    return render_template ('event_creating.html', title=title, form = form, user=current_user)
+
+@app.route ('/process_event', methods=['POST'])
+@login_required
+def creating():
+    form = EventForm()
+    available_vehicles=db.session.query(Vehicle).filter(Vehicle.user_id == current_user.id).all()
+    form.car_title.choices = [(i.id, i.title) for i in available_vehicles]
+    if form.validate_on_submit():
+       event = Event(
+            user_id= current_user.id,
+            title=form.title.data,
+            charges = form.charges.data,
+            vehicle_id = form.car_title.data,
+        )
+    db.session.add(event)
+    db.session.commit()
+    return redirect(url_for('events'))
