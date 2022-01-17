@@ -4,7 +4,6 @@ from wtforms import BooleanField, StringField, PasswordField, SubmitField, Integ
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
 from webapp.models import User 
 from wtforms.fields.choices import SelectField
-#from webapp import db
 from webapp.models import Car_base
 
 
@@ -44,7 +43,6 @@ class ManufacturerForm(FlaskForm):
 
 
 class CarinputForm(FlaskForm):
-    """сюда надо захерачить подгрузку картинки"""
     title = StringField('Введите имя авто (максимум 140 символов)', 
             validators=[DataRequired()], render_kw={"class":"form-control"})
     manufacturer = StringField('Производтель авто', 
@@ -73,8 +71,8 @@ class CarinputForm(FlaskForm):
             manufacturer=self.manufacturer.data
             ).all()
 		]
-
-
+   
+   
 class VehicleForm(FlaskForm):
     """сюда надо захерачить подгрузку картинки"""
     title = StringField(render_kw={"class":"form-control"})
@@ -85,4 +83,4 @@ class VehicleForm(FlaskForm):
     volume = IntegerField(render_kw={"class":"form-control"})
     transmission_type = SelectField(render_kw={"class":"form-control"})
     body = SelectField(render_kw={"class":"form-control"})
-    #submit = SubmitField('выбрать', render_kw={"class":"btn btn-primary"})        
+ 

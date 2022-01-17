@@ -7,6 +7,17 @@ from webapp.models import User, Vehicle
 from getpass import getpass
 from sqlalchemy.orm import selectinload
 from config import Config
+from webapp.models import User 
+from webapp.forms import CarinputForm
+from webapp import db
+from webapp.models import Vehicle, ImageSet
+from webapp.forms import ManufacturerForm, Car_base, VehicleForm
+
+import imghdr, secrets
+import os
+from flask import Flask, render_template, request, redirect, url_for, abort, send_from_directory
+from webapp.scripts.save_image import upload_files
+
 
 
 @app.route('/')
@@ -99,8 +110,15 @@ def process_сarinput():
             engine_type=сarinput_form.engine_type.data,
             volume=сarinput_form.volume.data,
             transmission_type=сarinput_form.transmission_type.data,
-            body=сarinput_form.body.data
+            body=сarinput_form.body.data,
+            vehicle_avatar=upload_files()
         )
         db.session.add(car)
         db.session.commit()
         return redirect(url_for('usercar'))
+
+
+@app.route('/uploads/<filename>')
+def upload(filename):
+    return send_from_directory(Config.UPLOAD_PATH, filename)
+    
