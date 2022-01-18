@@ -1,15 +1,23 @@
 {% extends 'base.html' %}
 {% block main %}
-
+<div class="container">
 {% for car in carlist %}
-<div class="card" style="width: 18rem;">
-    <img src="{{ url_for('upload', filename=car.vehicle_avatar) }}" class="card-img-top" alt="Avatar">
-    <div class="card-body">
-        <h5 class="card-title">{{ car.title }}</h5>
-        <p class="card-text">{{car.manufacturer}}</p>
-        <p class="card-text">{{car.model}}</p>
-        <a href="#" class="btn btn-primary">Choose current car</a>
+    <div class="row">
+        <div class="col-4 align-self-center">
+            <img src="{{ url_for('upload', filename=car.vehicle_avatar) }}" width="1000"  class="card-img-top" alt="Avatar">               
+        </div>
+        <div class="col-4 align-self-center">
+            <h3>{{ car.title }}</h3><br>
+            <h3>Производитель: {{car.manufacturer}}</h3>
+            <h3>Модель: {{car.model}}</h3>
+            <h3>Год выпуска: {{car.production_year}}</h3>
+            <h3> {{car.id}}</h3>
+        </div>
+        <div class="col-4 align-self-center">
+            <a href="{{ url_for('current_car', car_id=car.id) }}" class="btn btn-primary" role="button">Выбрать</a>
+        </div>
     </div>
-</div>
+    <hr />
 {% endfor %}
+</div>
 {% endblock %}
