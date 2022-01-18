@@ -10,7 +10,7 @@ from config import Config
 from webapp.models import User 
 from webapp.forms import CarinputForm
 from webapp import db
-from webapp.models import Vehicle, ImageSet
+from webapp.models import Vehicle, ImageSet, Event
 from webapp.forms import ManufacturerForm, Car_base, VehicleForm
 
 import imghdr, secrets
@@ -121,4 +121,12 @@ def process_сarinput():
 @app.route('/uploads/<filename>')
 def upload(filename):
     return send_from_directory(Config.UPLOAD_PATH, filename)
-    
+
+
+@app.route('/current_car/<car_id>')
+def current_car(car_id):
+    cid = car_id
+    title = 'Карточка автомобиля'
+    car =  Vehicle.query.filter_by(id=cid).first()
+    events = Event.query.filter_by(vehicle_id=cid).all()
+    return render_template('current_car.html', title=title, car=car, events=events)    
