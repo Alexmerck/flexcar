@@ -11,7 +11,6 @@
             <h3>Производитель: {{car.manufacturer}}</h3>
             <h3>Модель: {{car.model}}</h3>
             <h3>Год выпуска: {{car.production_year}}</h3>
-            <h3> {{car.id}}</h3>
         </div>
         <div class="col-4 align-self-center">
             <a href="{{ url_for('current_car', car_id=car.id) }}" class="btn btn-primary" role="button">Выбрать</a>
