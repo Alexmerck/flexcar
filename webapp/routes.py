@@ -55,7 +55,7 @@ def signup():
 @app.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('index'))
+    return redirect(url_for('login'))
 
 @app.route('/usercars')
 @login_required
@@ -112,30 +112,26 @@ def events():
     form = EventForm()
     title = 'Flexcar. Easy to own'
     user_id = current_user.id
-    vehicle = Vehicle.query.filter_by(user_id=user_id).all()
-    #events = Event.query.filter_by(user_id=user_id).all()
-    event = []
-    try:
-        event = Vehicle.query.all()
-    except:
-        print ('ошибка доступа к БД')
-    if vehicle:
-        if event == None:
+    vehicles = Vehicle.query.filter_by(user_id=user_id).all()
+    events = Event.query.filter_by(user_id=user_id).all()     
+    available_vehicles=db.session.query(Vehicle).filter(Vehicle.user_id == current_user.id).all()
+    form.car_title.choices = [(i.id, i.title) for i in available_vehicles] 
+    if vehicles:
+        if events == None:
             flash('Вы еще не добавили ни одного события')  
-        return render_template('events.html', title=title, form=form, user=current_user, event=event)
-        
+        return render_template('events.html', title=title, form=form, user=current_user, events=events, vehicles=vehicles)
     flash('Чтобы добавлять события, необходимо сначала добавить автомобиль')
     return redirect(url_for('index'))
     
 
-@app.route ('/create_event')
-@login_required
-def create():
-    form = EventForm()
-    title = 'Flexcar. Easy to own'
-    available_vehicles=db.session.query(Vehicle).filter(Vehicle.user_id == current_user.id).all()
-    form.car_title.choices = [(i.id, i.title) for i in available_vehicles]
-    return render_template ('event_creating.html', title=title, form = form, user=current_user)
+# @app.route ('/create_event')
+# @login_required
+# def create():
+#     form = EventForm()
+#     title = 'Flexcar. Easy to own'
+#     available_vehicles=db.session.query(Vehicle).filter(Vehicle.user_id == current_user.id).all()
+#     form.car_title.choices = [(i.id, i.title) for i in available_vehicles]
+#     return render_template ('event_creating.html', title=title, form = form, user=current_user)
 
 @app.route ('/process_event', methods=['POST'])
 @login_required
@@ -153,3 +149,5 @@ def creating():
     db.session.add(event)
     db.session.commit()
     return redirect(url_for('events'))
+
+

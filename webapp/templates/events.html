@@ -2,22 +2,42 @@
 {% block main %}
 {% include 'flash.html' %}
 
-<body>
-    <form action="{{ url_for('create') }}" method="get">
-        {{form.submit}}
-    </form>
 
-    {% for i in event %}
-    <div class="card" style="width: 18rem;">
-        <img src="..." class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title">{{ i.events.title }}</h5>
-            <p class="card-text">{{i.events.charges}}</p>
-            <p class="card-text">{{i.title}}</p>
-            <a href="#" class="btn btn-primary">Choose current car</a>
+<body>
+
+
+    {%include 'event_creating.html'%}
+
+    {% for vehicle in vehicles %}
+    <br>
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-8">
+                <div class="list-group">
+                    <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Автомобиль: {{vehicle.title}}</h5>
+                        </div>
+
+                        {%for event in vehicle.events%}
+
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">Событие: {{event.title}}</h5>
+
+                                <small class="text-muted">Последняя запись: {{moment(event.published).format('LL')}}
+                                </small>
+                            </div>
+                            <p class="mb-1">Стоимость: {{event.charges}} р</p>
+
+                        </a>
+                        {% endfor %}
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
-
+    {% endfor %}
 </body>
-{% endfor %}
+
 {% endblock %}
