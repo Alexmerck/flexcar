@@ -146,8 +146,6 @@ def change_car_data(car_id):
         transmission_type=car.transmission_type,
         body=car.body
         )
-    # if form.validate_on_submit():
-    #     db.session.commit()
     return render_template('change_car_data.html', title=title, car=car, form=form)
 
 
@@ -164,9 +162,9 @@ def change_car_data_in_progress(car_id):
         car.volume=form.volume.data
         car.transmission_type=form.transmission_type.data
         car.body=form.body.data
-        try:
+        if request.files['file']:
             car.vehicle_avatar=upload_files()
-        except:
+        else:
             car.vehicle_avatar=car.vehicle_avatar
         db.session.commit()
         title = 'Карточка автомобиля'

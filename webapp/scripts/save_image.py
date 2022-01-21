@@ -16,13 +16,15 @@ def validate_image(stream):
 
 
 def upload_files():
-    uploaded_file = request.files['file']
-    file_name = uploaded_file.filename
-    file_ext = os.path.splitext(file_name)[1].lower()
-    image_name = f"{secrets.token_hex(8)}{file_ext}"
-    if file_ext not in Config.UPLOAD_EXTENSIONS or \
-        file_ext != validate_image(uploaded_file.stream):
-        abort(400)
-    uploaded_file.save(os.path.join(Config.UPLOAD_PATH, image_name))
-    #saved_picture_rout = f"{Config.UPLOAD_PATH}\{image_name}" не работающий вариант для бд
+    if request.files['file']:
+        uploaded_file = request.files['file']
+        file_name = uploaded_file.filename
+        file_ext = os.path.splitext(file_name)[1].lower()
+        image_name = f"{secrets.token_hex(8)}{file_ext}"
+        if file_ext not in Config.UPLOAD_EXTENSIONS or \
+            file_ext != validate_image(uploaded_file.stream):
+            raise ValueError
+        uploaded_file.save(os.path.join(Config.UPLOAD_PATH, image_name))
+    else:
+        image_name = "default.jpg"
     return image_name
