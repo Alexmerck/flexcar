@@ -2,6 +2,6 @@ env/
 __pycache__/
 config.py
 */__pacache__/
-media/*
+media/
 login2.html
 signup2.html
