@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block main %}
+    <div class="container">
+    <h1>{{car.title}}</h1>
+    <div class="row">
+        <div class="col-6 align-self-center">
+            <img src="{{ url_for('upload', filename=car.vehicle_avatar) }}" width="400"  class="rounded" alt="Avatar">               
+        </div>
+        <div class="col-2"></div>
+        <div class="col-4">  
+            <center><h3>информация об автомобиле:</h3></center>
+            <div class="row">
+                <div class="col-6">                
+                    <b> Производитель:</b><br>
+                    <b> Модель:</b><br>
+                    <b> Год выпуска:</b><br>
+                    <b> Тип кузова:</b><br>
+                    <b> Тип двигателя:</b><br>
+                    <b> Объем двигателя:</b><br>
+                </div>
+                <div class="col-6">
+                    <b> {{car.manufacturer}}</b><br>
+                    <b> {{car.model}}</b><br>
+                    <b> {{car.production_year}}</b><br>
+                    <b> {{car.body}}</b><br>
+                    <b> {{car.engine_type}}</b><br>
+                    <b> {{car.volume}}</b><br>
+                </div>
+            </div>
+  
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button href="#" class="btn btn-primary me-md-2" type="button">Внести изменения</button>
+              </div>                        
+        </div>
+    </div>
+    <div class="row"><br><br></div>
+    <div class="row">
+        <div class="col-4">
+            <b> Заметки по автомобилю {{car.title}}</b>
+            <a href="#" class="btn btn-primary">Добавить новую запись</a>
+        </div>
+        <div class="col-6">
+            {% if events != [] %}
+                {% for event in events  %}
+                    <b> {{event+1}} {{event.title}}, от {{event.published}}</b>
+                    <a href="#" class="btn btn-primary">Посмотреть</a>
+                {% endfor %}
+            {% else %}
+                <b> По данному автомобилю пока нет записей</b>
+            {% endif %}
+            <hr />
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

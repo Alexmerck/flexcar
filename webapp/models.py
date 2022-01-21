@@ -44,6 +44,7 @@ class Vehicle(db.Model):
     transmission_type = db.Column(db.String(100))
     body = db.Column(db.String(100))
     events = db.relationship('Event', backref='name', lazy='dynamic')
+    vehicle_avatar = db.Column(db.String(120))
 
     def __repr__(self):
         return '<Vehicle %r>'.format(self.title)
@@ -56,3 +57,12 @@ class Car_base(db.Model):
 
     def __repr__(self):
         return '<Car_base %r>'.format(self.manufacturer)
+
+
+class ImageSet(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    image = db.Column(db.String(120), nullable=False)
+    vehicle_id = db.Column(db.Integer, db.ForeignKey('vehicle.id'))
+
+    def __repr__(self):
+        return '<ImageSet %r>'.format(self.image)

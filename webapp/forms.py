@@ -7,6 +7,8 @@ from wtforms.fields.choices import SelectField
 from webapp import db
 from webapp.models import Car_base, Vehicle
 from flask_login import  current_user
+from webapp.models import Car_base
+
 
 class LoginForm(FlaskForm):
     username = StringField('Имя пользователя',validators=[DataRequired()])
@@ -44,7 +46,6 @@ class ManufacturerForm(FlaskForm):
 
 
 class CarinputForm(FlaskForm):
-    """сюда надо захерачить подгрузку картинки"""
     title = StringField('Введите имя авто (максимум 140 символов)', 
             validators=[DataRequired()], render_kw={"class":"form-control"})
     manufacturer = StringField('Производтель авто', 
@@ -73,8 +74,8 @@ class CarinputForm(FlaskForm):
             manufacturer=self.manufacturer.data
             ).all()
 		]
-
-
+   
+   
 class VehicleForm(FlaskForm):
     """сюда надо захерачить подгрузку картинки"""
     title = StringField(render_kw={"class":"form-control"})
@@ -94,3 +95,4 @@ class EventForm(FlaskForm):
         car_title = SelectField('Выберите Автомобиль',   render_kw={"class":"form-control"})
         charges = IntegerField('Введите стоимость', validators=[DataRequired()], render_kw={"class":"form-control"})
                 
+    
