@@ -5,60 +5,73 @@
     {%if car.vehicle_avatar is none%}
     <div class="row">
         <div class="col-6 align-self-center">
-            <img src="" width="400" class="rounded" alt="Avatar">
+            <img src="{{url_for('static', filename='default.png')}}" width="400" class="rounded" alt="Avatar">
         </div>
         {%else%}
-        <div class="col-6 align-self-center">
-            <img src="{{ url_for('upload', filename=car.vehicle_avatar) }}" width="400" class="rounded" alt="Avatar">
-        </div>
-        {%endif%}
-        <div class="col-2"></div>
-        <div class="col-4">
-            <center>
+        <div class="row">
+            <div class="col-6 align-self-center">
+                <img src="{{ url_for('upload', filename=car.vehicle_avatar) }}" width="400" class="rounded"
+                    alt="Avatar">
+            </div>
+            {%endif%}
+            <div class="col-2"></div>
+            <div class="col-4">
+                <div class="row justify-content-md-center"></div>
                 <h3>информация об автомобиле:</h3>
-            </center>
-            <div class="row">
-                <div class="col-6">
-                    <b> Производитель:</b><br>
-                    <b> Модель:</b><br>
-                    <b> Год выпуска:</b><br>
-                    <b> Тип кузова:</b><br>
-                    <b> Тип двигателя:</b><br>
-                    <b> Объем двигателя:</b><br>
+                <div class="row">
+                    <div class="col-6">
+                        <b> Производитель:</b><br>
+                        <b> Модель:</b><br>
+                        <b> Год выпуска:</b><br>
+                        <b> Тип кузова:</b><br>
+                        <b> Тип двигателя:</b><br>
+                        <b> Объем двигателя:</b><br>
+                    </div>
+                    <div class="col-6">
+                        <b> {{car.manufacturer}}</b><br>
+                        <b> {{car.model}}</b><br>
+                        <b> {{car.production_year}}</b><br>
+                        <b> {{car.body}}</b><br>
+                        <b> {{car.engine_type}}</b><br>
+                        <b> {{car.volume}}</b><br>
+                    </div>
                 </div>
-                <div class="col-6">
-                    <b> {{car.manufacturer}}</b><br>
-                    <b> {{car.model}}</b><br>
-                    <b> {{car.production_year}}</b><br>
-                    <b> {{car.body}}</b><br>
-                    <b> {{car.engine_type}}</b><br>
-                    <b> {{car.volume}}</b><br>
+
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <a href="{{ url_for('change_car_data', car_id=car.id) }}" class="btn btn-primary">Внести
+                        изменения</a>
                 </div>
             </div>
+        </div>
+        <div class="row"><br><br></div>
 
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <a href="{{ url_for('change_car_data', car_id=car.id) }}" class="btn btn-primary">Внести изменения</a>
-            </div>                        
+
+        <div class="row">
+            <div class="col-4">
+                <b> Заметки по автомобилю {{car.title}}</b>
+                <a href="#" class="btn btn-primary">Добавить новую запись</a>
+            </div>
+            <div class="col-6">
+                {% if events != [] %}
+                {% for event in events %}
+
+                <a href="{{url_for('current_event', event_id=event.id)}}"
+                    class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">Событие: {{event.title}}</h5>
+
+                        <small class="text-muted">Последняя запись: {{moment(event.published).format('LL')}}
+                        </small>
+                    </div>
+                    <p class="mb-1">Стоимость: {{event.charges}} р</p>
+
+                </a>
+                {% endfor %}
+                {% else %}
+                <b> По данному автомобилю пока нет записей</b>
+                {% endif %}
+                <hr />
+            </div>
         </div>
     </div>
-    <div class="row"><br><br></div>
-    <div class="row">
-        <div class="col-4">
-            <b> Заметки по автомобилю {{car.title}}</b>
-            <a href="#" class="btn btn-primary">Добавить новую запись</a>
-        </div>
-        <div class="col-6">
-            {% if events != [] %}
-            {% for event in events %}
-            <b> {{event.title}}, от {{moment(event.published).format('LL')}}</b>
-            <a href="#" class="btn btn-primary">Посмотреть</a>
-            <br><br>
-            {% endfor %}
-            {% else %}
-            <b> По данному автомобилю пока нет записей</b>
-            {% endif %}
-            <hr />
-        </div>
-    </div>
-</div>
-{% endblock %}
+    {% endblock %}

@@ -14,14 +14,16 @@
         <div class="row justify-content-md-center">
             <div class="col-8">
                 <div class="list-group">
-                    <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
+                    <a href="{{url_for('current_car', car_id=vehicle.id)}}"
+                        class="list-group-item list-group-item-action active" aria-current="true">
                         <div class="d-flex w-100 justify-content-between">
                             <h5 class="mb-1">Автомобиль: {{vehicle.title}}</h5>
                         </div>
 
                         {%for event in vehicle.events%}
 
-                        <a href="#" class="list-group-item list-group-item-action">
+                        <a href="{{url_for('current_event', event_id=event.id)}}"
+                            class="list-group-item list-group-item-action">
                             <div class="d-flex w-100 justify-content-between">
                                 <h5 class="mb-1">Событие: {{event.title}}</h5>
 

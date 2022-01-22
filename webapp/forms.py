@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from werkzeug.wrappers import request
-from wtforms import BooleanField, StringField, PasswordField, SubmitField, IntegerField
+from wtforms import BooleanField, StringField, PasswordField, SubmitField, IntegerField, TextAreaField
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
 from webapp.models import User 
 from wtforms.fields.choices import SelectField
@@ -94,5 +94,6 @@ class EventForm(FlaskForm):
         title = StringField('Введите название события', validators=[DataRequired()], render_kw={"class":"form-control"})
         car_title = SelectField('Выберите Автомобиль',   render_kw={"class":"form-control"})
         charges = IntegerField('Введите стоимость', validators=[DataRequired()], render_kw={"class":"form-control"})
-                
+        milege = IntegerField('Введите пробег', validators=[DataRequired()], render_kw={"class":"form-control"})
+        description = TextAreaField('Введите описание', validators=[DataRequired()], render_kw={"class":"form-control"})       
     

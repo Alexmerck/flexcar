@@ -29,12 +29,22 @@
                         {{ form.charges()}}
                         <hr>
                     </div>
+                    <div class="form-group">
+                        {{ form.milege.label }}<br>
+                        {{ form.milege()}}
+                        <hr>
+                    </div>
+                    <div class="form-group">
+                        {{ form.description.label }}<br>
+                        {{ form.description()}}
+                        <hr>
+                    </div>
                     {{form.submit()}}
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-primary">Добавить изменения</button>
             </div>
         </div>
     </div>

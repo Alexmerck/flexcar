@@ -5,7 +5,7 @@
     {%if car.vehicle_avatar is none%}
     <div class="row">
         <div class="col-4 align-self-center">
-            <img src="" width="1000" class="card-img-top" alt="Avatar">
+            <img src="{{url_for('static', filename='default.png')}}" width="750" class="card-img-top" alt="Avatar">
         </div>
         {%else%}
         <div class="row">

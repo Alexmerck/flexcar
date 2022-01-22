@@ -158,6 +158,8 @@ def creating():
             title=form.title.data,
             charges = form.charges.data,
             vehicle_id = form.car_title.data,
+            milege = form.milege.data,
+            description = form.description.data,
         )
     db.session.add(event)
     db.session.commit()
@@ -215,3 +217,12 @@ def change_car_data_in_progress(car_id):
         title = 'Карточка автомобиля'
         events = Event.query.filter_by(vehicle_id=car_id).all()
         return render_template('current_car.html', title=title, car=car, events=events)
+
+@app.route('/current_event/<event_id>')
+def current_event(event_id):
+    title = 'Событие'
+    
+    event = Event.query.filter_by(id=event_id).first()
+    print(event)
+    
+    return render_template('current_event.html', title=title, event=event) 
