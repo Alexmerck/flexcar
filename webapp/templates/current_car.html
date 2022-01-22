@@ -1,16 +1,24 @@
 {% extends 'base.html' %}
 {% block main %}
-    <div class="container">
+<div class="container">
     <h1>{{car.title}}</h1>
+    {%if car.vehicle_avatar is none%}
     <div class="row">
         <div class="col-6 align-self-center">
-            <img src="{{ url_for('upload', filename=car.vehicle_avatar) }}" width="400"  class="rounded" alt="Avatar">               
+            <img src="" width="400" class="rounded" alt="Avatar">
         </div>
+        {%else%}
+        <div class="col-6 align-self-center">
+            <img src="{{ url_for('upload', filename=car.vehicle_avatar) }}" width="400" class="rounded" alt="Avatar">
+        </div>
+        {%endif%}
         <div class="col-2"></div>
-        <div class="col-4">  
-            <center><h3>информация об автомобиле:</h3></center>
+        <div class="col-4">
+            <center>
+                <h3>информация об автомобиле:</h3>
+            </center>
             <div class="row">
-                <div class="col-6">                
+                <div class="col-6">
                     <b> Производитель:</b><br>
                     <b> Модель:</b><br>
                     <b> Год выпуска:</b><br>
@@ -27,10 +35,10 @@
                     <b> {{car.volume}}</b><br>
                 </div>
             </div>
-  
+
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                 <button href="#" class="btn btn-primary me-md-2" type="button">Внести изменения</button>
-              </div>                        
+            </div>
         </div>
     </div>
     <div class="row"><br><br></div>
@@ -41,16 +49,16 @@
         </div>
         <div class="col-6">
             {% if events != [] %}
-                {% for event in events  %}
-                    <b> {{event+1}} {{event.title}}, от {{event.published}}</b>
-                    <a href="#" class="btn btn-primary">Посмотреть</a>
-                {% endfor %}
+            {% for event in events %}
+            <b> {{event.title}}, от {{moment(event.published).format('LL')}}</b>
+            <a href="#" class="btn btn-primary">Посмотреть</a>
+            <br><br>
+            {% endfor %}
             {% else %}
-                <b> По данному автомобилю пока нет записей</b>
+            <b> По данному автомобилю пока нет записей</b>
             {% endif %}
             <hr />
-            </div>
         </div>
     </div>
+</div>
 {% endblock %}
-
