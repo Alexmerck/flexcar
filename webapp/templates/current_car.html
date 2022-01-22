@@ -37,8 +37,8 @@
             </div>
 
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <button href="#" class="btn btn-primary me-md-2" type="button">Внести изменения</button>
-            </div>
+                <a href="{{ url_for('change_car_data', car_id=car.id) }}" class="btn btn-primary">Внести изменения</a>
+            </div>                        
         </div>
     </div>
     <div class="row"><br><br></div>

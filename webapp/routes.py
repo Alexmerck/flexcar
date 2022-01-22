@@ -1,3 +1,4 @@
+from email.policy import default
 from flask import render_template, flash, redirect, url_for, request
 from flask_login.utils import login_required
 from webapp import app, db
@@ -170,8 +171,47 @@ def upload(filename):
 
 @app.route('/current_car/<car_id>')
 def current_car(car_id):
-    cid = car_id
     title = 'Карточка автомобиля'
-    car =  Vehicle.query.filter_by(id=cid).first()
-    events = Event.query.filter_by(vehicle_id=cid).all()
+    car =  Vehicle.query.filter_by(id=car_id).first()
+    events = Event.query.filter_by(vehicle_id=car_id).all()
     return render_template('current_car.html', title=title, car=car, events=events)    
+
+
+@app.route('/change_car_data/<car_id>')
+def change_car_data(car_id):
+    title = 'Изменение карточки автомобиля'
+    car =  Vehicle.query.filter_by(id=car_id).first()
+    form = CarinputForm(
+        title=car.title,
+        manufacturer=car.manufacturer,
+        model=car.model,
+        production_year=car.production_year,
+        engine_type=car.engine_type,
+        volume=car.volume,
+        transmission_type=car.transmission_type,
+        body=car.body
+        )
+    return render_template('change_car_data.html', title=title, car=car, form=form)
+
+
+@app.route('/change_car_data_in_progress/<car_id>', methods=["POST"])
+def change_car_data_in_progress(car_id):
+    car =  Vehicle.query.filter_by(id=car_id).first()
+    form = CarinputForm()
+    if form.validate_on_submit():
+        car.title=form.title.data
+        car.manufacturer=form.manufacturer.data
+        car.model=form.model.data
+        car.production_year=form.production_year.data
+        car.engine_type=form.engine_type.data
+        car.volume=form.volume.data
+        car.transmission_type=form.transmission_type.data
+        car.body=form.body.data
+        if request.files['file']:
+            car.vehicle_avatar=upload_files()
+        else:
+            car.vehicle_avatar=car.vehicle_avatar
+        db.session.commit()
+        title = 'Карточка автомобиля'
+        events = Event.query.filter_by(vehicle_id=car_id).all()
+        return render_template('current_car.html', title=title, car=car, events=events)
