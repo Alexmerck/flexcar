@@ -5,7 +5,7 @@
     {%if car.vehicle_avatar is none%}
     <div class="row">
         <div class="col-6 align-self-center">
-            <img src="{{url_for('static', filename='default.png')}}" width="400" class="rounded" alt="Avatar">
+            <img src="{{url_for('static', filename='default.svg')}}" width="400" class="rounded" alt="Avatar">
         </div>
         {%else%}
         <div class="row">
@@ -33,7 +33,7 @@
                         <b> {{car.production_year}}</b><br>
                         <b> {{car.body}}</b><br>
                         <b> {{car.engine_type}}</b><br>
-                        <b> {{car.volume}}</b><br>
+                        <b> {{car.volume}} л</b><br>
                     </div>
                 </div>
 
@@ -49,10 +49,10 @@
         <div class="row">
             <div class="col-4">
                 <b> Заметки по автомобилю {{car.title}}</b>
-                <a href="#" class="btn btn-primary">Добавить новую запись</a>
+                {%include 'event_creating.html'%}
             </div>
             <div class="col-6">
-                {% if not events %}
+                {% if events %}
                 {% for event in events %}
 
                 <a href="{{url_for('current_event', event_id=event.id)}}"

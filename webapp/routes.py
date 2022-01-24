@@ -165,9 +165,13 @@ def upload(filename):
 @app.route('/current_car/<car_id>')
 def current_car(car_id):
     title = 'Карточка автомобиля'
+    form = EventForm()
+    available_vehicles=db.session.query(Vehicle).filter(Vehicle.user_id == current_user.id).all()
+    form.car_title.choices = [(i.id, i.title) for i in available_vehicles]
+    
     car =  Vehicle.query.filter_by(id=car_id).first()
     events = Event.query.filter_by(vehicle_id=car_id).all()
-    return render_template('current_car.html', title=title, car=car, events=events)    
+    return render_template('current_car.html', title=title, car=car, events=events, form=form)    
 
 
 @app.route('/change_car_data/<car_id>')
