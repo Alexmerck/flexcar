@@ -1,9 +1,12 @@
 from flask_wtf import FlaskForm
 from werkzeug.wrappers import request
-from wtforms import BooleanField, StringField, PasswordField, SubmitField, IntegerField
+from wtforms import BooleanField, StringField, PasswordField, SubmitField, IntegerField, TextAreaField
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
 from webapp.models import User 
 from wtforms.fields.choices import SelectField
+from webapp import db
+from webapp.models import Car_base, Vehicle
+from flask_login import  current_user
 from webapp.models import Car_base
 
 
@@ -83,4 +86,14 @@ class VehicleForm(FlaskForm):
     volume = IntegerField(render_kw={"class":"form-control"})
     transmission_type = SelectField(render_kw={"class":"form-control"})
     body = SelectField(render_kw={"class":"form-control"})
+          
+
+class EventForm(FlaskForm):
+      
+        submit = SubmitField('Добавить', render_kw={"class":"btn btn-primary"})
+        title = StringField('Введите название события', validators=[DataRequired()], render_kw={"class":"form-control"})
+        car_title = SelectField('Выберите Автомобиль',   render_kw={"class":"form-control"})
+        charges = IntegerField('Введите стоимость', validators=[DataRequired()], render_kw={"class":"form-control"})
+        milege = IntegerField('Введите пробег', validators=[DataRequired()], render_kw={"class":"form-control"})
+        description = TextAreaField('Введите описание', validators=[DataRequired()], render_kw={"class":"form-control"})       
     
