@@ -2,9 +2,9 @@ from email.policy import default
 from flask import render_template, flash, redirect, url_for, request
 from flask_login.utils import login_required
 from webapp import app, db
-from webapp.forms import LoginForm, Signup, CarinputForm, ManufacturerForm, Car_base
+from webapp.forms import LoginForm, Signup, CarinputForm, ManufacturerForm, Car_base, EventForm
 from flask_login import LoginManager, login_user, logout_user, current_user
-from webapp.models import User, Vehicle
+from webapp.models import User, Vehicle, Event
 from getpass import getpass
 from sqlalchemy.orm import selectinload
 from config import Config
@@ -67,7 +67,7 @@ def signup():
 @app.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('index'))
+    return redirect(url_for('login'))
 
 @app.route('/usercars')
 @login_required
@@ -117,6 +117,44 @@ def process_сarinput():
         db.session.add(car)
         db.session.commit()
         return redirect(url_for('usercar'))
+
+
+@app.route ('/events')
+@login_required
+def events():
+    form = EventForm()
+    title = 'Flexcar. Easy to own'
+    user_id = current_user.id
+    vehicles = Vehicle.query.filter_by(user_id=user_id).all()
+    events = Event.query.filter_by(user_id=user_id).all()     
+    form.car_title.choices = [(i.id, i.title) for i in vehicles] 
+    if not vehicles:
+        flash('Чтобы добавлять события, необходимо сначала добавить автомобиль')       
+    if events == None:
+        flash('Вы еще не добавили ни одного события')  
+    return render_template('events.html', title=title, form=form, user=current_user, events=events, vehicles=vehicles)
+    
+    
+ 
+
+@app.route ('/process_event', methods=['POST'])
+@login_required
+def creating():
+    form = EventForm()
+    available_vehicles=db.session.query(Vehicle).filter(Vehicle.user_id == current_user.id).all()
+    form.car_title.choices = [(i.id, i.title) for i in available_vehicles]
+    if form.validate_on_submit():
+        event = Event(
+            user_id= current_user.id,
+            title=form.title.data,
+            charges = form.charges.data,
+            vehicle_id = form.car_title.data,
+            milege = form.milege.data,
+            description = form.description.data,
+        )
+        db.session.add(event)
+        db.session.commit()
+        return redirect(url_for('events'))
 
 
 @app.route('/uploads/<filename>')
@@ -170,3 +208,9 @@ def change_car_data_in_progress(car_id):
         title = 'Карточка автомобиля'
         events = Event.query.filter_by(vehicle_id=car_id).all()
         return render_template('current_car.html', title=title, car=car, events=events)
+
+@app.route('/current_event/<event_id>')
+def current_event(event_id):
+    title = 'Событие'
+    event = Event.query.filter_by(id=event_id).first()
+    return render_template('current_event.html', title=title, event=event) 
