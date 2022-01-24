@@ -52,7 +52,7 @@
                 <a href="#" class="btn btn-primary">Добавить новую запись</a>
             </div>
             <div class="col-6">
-                {% if events != [] %}
+                {% if not events %}
                 {% for event in events %}
 
                 <a href="{{url_for('current_event', event_id=event.id)}}"

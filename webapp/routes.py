@@ -127,24 +127,15 @@ def events():
     user_id = current_user.id
     vehicles = Vehicle.query.filter_by(user_id=user_id).all()
     events = Event.query.filter_by(user_id=user_id).all()     
-    available_vehicles=db.session.query(Vehicle).filter(Vehicle.user_id == current_user.id).all()
-    form.car_title.choices = [(i.id, i.title) for i in available_vehicles] 
-    if vehicles:
-        if events == None:
-            flash('Вы еще не добавили ни одного события')  
-        return render_template('events.html', title=title, form=form, user=current_user, events=events, vehicles=vehicles)
-    flash('Чтобы добавлять события, необходимо сначала добавить автомобиль')
-    return redirect(url_for('index'))
+    form.car_title.choices = [(i.id, i.title) for i in vehicles] 
+    if not vehicles:
+        flash('Чтобы добавлять события, необходимо сначала добавить автомобиль')       
+    if events == None:
+        flash('Вы еще не добавили ни одного события')  
+    return render_template('events.html', title=title, form=form, user=current_user, events=events, vehicles=vehicles)
     
-
-# @app.route ('/create_event')
-# @login_required
-# def create():
-#     form = EventForm()
-#     title = 'Flexcar. Easy to own'
-#     available_vehicles=db.session.query(Vehicle).filter(Vehicle.user_id == current_user.id).all()
-#     form.car_title.choices = [(i.id, i.title) for i in available_vehicles]
-#     return render_template ('event_creating.html', title=title, form = form, user=current_user)
+    
+ 
 
 @app.route ('/process_event', methods=['POST'])
 @login_required
@@ -153,7 +144,7 @@ def creating():
     available_vehicles=db.session.query(Vehicle).filter(Vehicle.user_id == current_user.id).all()
     form.car_title.choices = [(i.id, i.title) for i in available_vehicles]
     if form.validate_on_submit():
-       event = Event(
+        event = Event(
             user_id= current_user.id,
             title=form.title.data,
             charges = form.charges.data,
@@ -161,9 +152,9 @@ def creating():
             milege = form.milege.data,
             description = form.description.data,
         )
-    db.session.add(event)
-    db.session.commit()
-    return redirect(url_for('events'))
+        db.session.add(event)
+        db.session.commit()
+        return redirect(url_for('events'))
 
 
 @app.route('/uploads/<filename>')
@@ -221,8 +212,5 @@ def change_car_data_in_progress(car_id):
 @app.route('/current_event/<event_id>')
 def current_event(event_id):
     title = 'Событие'
-    
     event = Event.query.filter_by(id=event_id).first()
-    print(event)
-    
     return render_template('current_event.html', title=title, event=event) 
