@@ -1,6 +1,8 @@
+{% extends 'base.html' %}
+{% block main %}
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    Добавить
+    Внести изменения
 </button>
 
 <!-- Modal -->
@@ -12,7 +14,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{{ url_for('creating')}}" method="post">
+                <form action="{{ url_for('change_event_data', event_id=event.id)}}" method="post">
                     {{ form.hidden_tag() }}
                     <div class="form-group">
                         {{ form.car_title.label}}<br>
@@ -39,7 +41,7 @@
                         {{ form.description()}}
                         <hr>
                     </div>
-                    <input type="hidden" name="redirect_to" value="{{redirect_to}}">
+
 
             </div>
             <div class="modal-footer">
@@ -49,3 +51,4 @@
         </div>
     </div>
 </div>
+{%endblock%}

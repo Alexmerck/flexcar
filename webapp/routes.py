@@ -132,11 +132,9 @@ def events():
         flash('Чтобы добавлять события, необходимо сначала добавить автомобиль')       
     if events == None:
         flash('Вы еще не добавили ни одного события')  
-    return render_template('events.html', title=title, form=form, user=current_user, events=events, vehicles=vehicles)
+    return render_template('events.html', title=title, form=form, user=current_user, events=events, vehicles=vehicles, redirect_to = 'events')
     
     
- 
-
 @app.route ('/process_event', methods=['POST'])
 @login_required
 def creating():
@@ -154,7 +152,7 @@ def creating():
         )
         db.session.add(event)
         db.session.commit()
-        return redirect(url_for('events'))
+        return redirect(url_for(request.form['redirect_to'], car_id = form.car_title.data))
 
 
 @app.route('/uploads/<filename>')
@@ -168,10 +166,9 @@ def current_car(car_id):
     form = EventForm()
     available_vehicles=db.session.query(Vehicle).filter(Vehicle.user_id == current_user.id).all()
     form.car_title.choices = [(i.id, i.title) for i in available_vehicles]
-    
     car =  Vehicle.query.filter_by(id=car_id).first()
     events = Event.query.filter_by(vehicle_id=car_id).all()
-    return render_template('current_car.html', title=title, car=car, events=events, form=form)    
+    return render_template('current_car.html', title=title, car=car, events=events, form=form, redirect_to = 'current_car')    
 
 
 @app.route('/change_car_data/<car_id>')
@@ -209,12 +206,53 @@ def change_car_data_in_progress(car_id):
         else:
             car.vehicle_avatar=car.vehicle_avatar
         db.session.commit()
-        title = 'Карточка автомобиля'
-        events = Event.query.filter_by(vehicle_id=car_id).all()
-        return render_template('current_car.html', title=title, car=car, events=events)
+        return redirect(url_for('current_car', car_id = car.id))
 
 @app.route('/current_event/<event_id>')
 def current_event(event_id):
     title = 'Событие'
+    form = EventForm()
     event = Event.query.filter_by(id=event_id).first()
-    return render_template('current_event.html', title=title, event=event) 
+    form = EventForm(
+        title = event.title,
+        description = event.description,
+        charges = event.charges,
+        milege = event.milege
+        
+        )
+
+    return render_template('current_event.html', title=title, event=event, form=form) 
+
+
+@app.route('/change_event_data/<event_id>', methods=["POST"])
+def change_event_data(event_id):
+    
+    event = Event.query.filter_by(id=event_id).first()
+    form = EventForm()
+    available_vehicles=db.session.query(Vehicle).filter(Vehicle.user_id == current_user.id).all()
+    form.car_title.choices = [(i.id, i.title) for i in available_vehicles]
+    if form.validate_on_submit():
+        event.title=form.title.data,
+        event.charges = form.charges.data,
+        event.milege = form.milege.data,
+        event.description = form.description.data,
+        db.session.commit()      
+        return redirect(url_for('current_event', event_id = event.id))
+
+
+# @app.route('/change_event_data/<event_id>')
+# def change_event_data(event_id):
+#     title = 'Изменение карточки автомобиля'
+#     event = Event.query.filter_by(id=event_id).first()
+#     form = EventForm()
+#     available_vehicles=db.session.query(Vehicle).filter(Vehicle.user_id == current_user.id).all()
+#     form.car_title.choices = [(i.id, i.title) for i in available_vehicles]
+#     event = Event(
+#             user_id= current_user.id,
+#             title=form.title.data,
+#             charges = form.charges.data,
+#             vehicle_id = form.car_title.data,
+#             milege = form.milege.data,
+#             description = form.description.data,
+#             )        
+#     return render_template('change_event_data.html', title=title, event=event, form=form)
