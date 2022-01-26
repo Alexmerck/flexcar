@@ -211,48 +211,40 @@ def change_car_data_in_progress(car_id):
 @app.route('/current_event/<event_id>')
 def current_event(event_id):
     title = 'Событие'
-    form = EventForm()
     event = Event.query.filter_by(id=event_id).first()
+    return render_template('current_event.html', title=title, event=event) 
+
+
+@app.route('/change_event_data/<event_id>')
+def change_event_data(event_id):
+    title = 'Изменение события'
+    event = Event.query.filter_by(id=event_id).first()
+    car = Vehicle.query.get(event.vehicle_id)
     form = EventForm(
         title = event.title,
-        description = event.description,
         charges = event.charges,
-        milege = event.milege
-        
-        )
+        milege = event.milege,
+        description = event.description,
+    )
+    form.car_title.choices = [(car.title, car.title)]
+     
+    return render_template ('change_event_data.html', title=title, event=event, form=form)
 
-    return render_template('current_event.html', title=title, event=event, form=form) 
 
-
-@app.route('/change_event_data/<event_id>', methods=["POST"])
-def change_event_data(event_id):
+@app.route('/change_event_data_process/<event_id>', methods=["POST"])
+def change_event_data_process(event_id):
+    print(request.form)
     
     event = Event.query.filter_by(id=event_id).first()
+    car = Vehicle.query.get(event.vehicle_id)
     form = EventForm()
-    available_vehicles=db.session.query(Vehicle).filter(Vehicle.user_id == current_user.id).all()
-    form.car_title.choices = [(i.id, i.title) for i in available_vehicles]
+    form.car_title.choices = [(car.title, car.title)]
     if form.validate_on_submit():
-        event.title=form.title.data,
-        event.charges = form.charges.data,
-        event.milege = form.milege.data,
-        event.description = form.description.data,
-        db.session.commit()      
-        return redirect(url_for('current_event', event_id = event.id))
-
-
-# @app.route('/change_event_data/<event_id>')
-# def change_event_data(event_id):
-#     title = 'Изменение карточки автомобиля'
-#     event = Event.query.filter_by(id=event_id).first()
-#     form = EventForm()
-#     available_vehicles=db.session.query(Vehicle).filter(Vehicle.user_id == current_user.id).all()
-#     form.car_title.choices = [(i.id, i.title) for i in available_vehicles]
-#     event = Event(
-#             user_id= current_user.id,
-#             title=form.title.data,
-#             charges = form.charges.data,
-#             vehicle_id = form.car_title.data,
-#             milege = form.milege.data,
-#             description = form.description.data,
-#             )        
-#     return render_template('change_event_data.html', title=title, event=event, form=form)
+        event.title = form.title.data
+        event.description = form.description.data
+        event.charges = form.charges.data
+        event.milege = form.milege.data
+        event.car_title = form.car_title.data
+        db.session.commit()
+          
+    return redirect(url_for('current_event', event_id = event.id))

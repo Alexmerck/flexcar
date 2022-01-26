@@ -3,7 +3,7 @@
 {% include 'flash.html' %}
 
 
-{%include 'change_event_data.html'%}
+
 
 <h5 class="mb-1">Событие: {{event.title}}</h5>
 
@@ -15,5 +15,10 @@
 <p>{{event.description}}</p>
 
 </a>
+
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <a href="{{ url_for('change_event_data', event_id=event.id) }}" class="btn btn-primary">Внести
+        изменения</a>
+</div>
 
 {%endblock%}
