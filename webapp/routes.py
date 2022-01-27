@@ -18,6 +18,8 @@ import imghdr, secrets
 import os
 from flask import Flask, render_template, request, redirect, url_for, abort, send_from_directory
 from webapp.scripts.save_image import upload_files
+from webapp.scripts.parser import parser_prices
+from statistics import mean
 
 
 
@@ -214,3 +216,21 @@ def current_event(event_id):
     title = 'Событие'
     event = Event.query.filter_by(id=event_id).first()
     return render_template('current_event.html', title=title, event=event) 
+
+
+@app.route('/price_parser/<car_id>')
+@login_required
+def price_parser(car_id):
+    title = 'Cтоимость автомобиля на рынке б/у автомобилей'
+    car =  Vehicle.query.filter_by(id=car_id).first()
+    manufacturer = car.manufacturer.lower()
+    model = car.model.lower()
+    production_year = car.production_year
+    try:
+        price_list = parser_prices(manufacturer, model, production_year)
+        mid_price = mean(price_list)
+        max_price = max(price_list)
+        min_price = min(price_list)
+        return render_template('price_parser.html', title=title, mid_price=mid_price, max_price=max_price, min_price=min_price)
+    except:
+        return render_template('Bug.html')

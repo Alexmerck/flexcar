@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block main %}
+
+<Center><h2 class="mb-1">{{title}}</h5></Center>
+
+<Center>
+    <div class="form-group">
+        Cредняя стоимость аналогичного автомобиля: <br>
+        {{mid_price}}
+        <hr>
+    </div>
+    <div class="form-group">
+        Максимальная стоимость аналогичного автомобиля: <br>
+        {{max_price}}
+        <hr>
+    </div>
+    <div class="form-group">
+        Минимальная стоимость аналогичного автомобиля: <br>
+        {{min_price}}
+        <hr>
+    </div>
+</Center>
+{% endblock %}
