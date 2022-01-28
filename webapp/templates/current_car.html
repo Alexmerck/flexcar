@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block main %}
+{% include 'flash.html' %}
 <div class="container">
     <h1>{{car.title}}</h1>
     {%if car.vehicle_avatar is none%}
