@@ -13,12 +13,15 @@ from webapp.forms import CarinputForm
 from webapp import db
 from webapp.models import Vehicle, ImageSet, Event
 from webapp.forms import ManufacturerForm, Car_base, VehicleForm
-
+import locale
 import imghdr, secrets
 import os
 from flask import Flask, render_template, request, redirect, url_for, abort, send_from_directory
 from webapp.scripts.save_image import upload_files
+from webapp.scripts.parser import parser_prices
+from statistics import StatisticsError, mean
 
+locale.setlocale(locale.LC_ALL, '')
 
 
 @app.route('/')
@@ -214,3 +217,22 @@ def current_event(event_id):
     title = 'Событие'
     event = Event.query.filter_by(id=event_id).first()
     return render_template('current_event.html', title=title, event=event) 
+
+
+@app.route('/price_parser/<car_id>')
+@login_required
+def price_parser(car_id):
+    title = 'Cтоимость автомобиля на рынке б/у автомобилей'
+    car =  Vehicle.query.filter_by(id=car_id).first()
+    manufacturer = car.manufacturer.lower()
+    model = car.model.lower()
+    production_year = car.production_year
+    try:
+        price_list = parser_prices(manufacturer, model, production_year)
+        mid_price = locale.format('%d', round(mean(price_list)), grouping=True)
+        max_price = locale.format('%d', max(price_list), grouping=True)
+        min_price = locale.format('%d', min(price_list), grouping=True)
+        return render_template('price_parser.html', title=title, mid_price=mid_price, max_price=max_price, min_price=min_price)
+    except StatisticsError:
+        flash('Невозможно рассчитать стоимость автомобиля')
+        return redirect(url_for('current_car', car_id=car.id))
