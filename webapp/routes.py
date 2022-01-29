@@ -74,7 +74,8 @@ def logout():
 def usercar():
     user_id = current_user.id
     carlist =  Vehicle.query.filter_by(user_id=user_id).all()
-    return render_template('usercars.html', title='GARAGE', user=current_user, carlist=carlist)
+    events = Event.query.filter_by(user_id=user_id).first()
+    return render_template('usercars.html', title='GARAGE', user=current_user, carlist=carlist, events=events)
 
 
 @app.route('/get_manufacturer')
@@ -168,6 +169,7 @@ def current_car(car_id):
     form.car_title.choices = [(i.id, i.title) for i in available_vehicles]
     car =  Vehicle.query.filter_by(id=car_id).first()
     events = Event.query.filter_by(vehicle_id=car_id).all()
+    
     return render_template('current_car.html', title=title, car=car, events=events, form=form, redirect_to = 'current_car')    
 
 

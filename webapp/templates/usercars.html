@@ -1,31 +1,158 @@
 {% extends 'base.html' %}
 {% block main %}
-<div class="container">
+<link href="{{url_for('static', filename='fonts/roboto/stylesheet.css')}}" rel="stylesheet" type="text/css" />
+<style>
+    .mainLayout {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 100%;
+        overflow: hidden;
+        background-color: #fff;
+        padding: 42px 122px 56px 122px
+    }
+
+    .title {
+        font-size: 32px;
+        font-weight: 800;
+        line-height: 48px;
+        text-align: left;
+    }
+
+
+    .itemRoot {
+        display: flex;
+        flex-direction: row;
+        background-color: #E8E8E8;
+        margin-bottom: 40px;
+    }
+
+
+    .imageBlock {
+        height: 380px;
+        max-width: 466px;
+        min-width: 466px;
+        object-fit: cover;
+    }
+
+
+    .image {
+        height: 100%;
+        width: 100%;
+    }
+
+
+    .vehicleInfoBlock {
+        box-sizing: border-box;
+        padding: 40px 142px 116px 121px;
+        width: 100%;
+        position: relative;
+    }
+
+
+    .type {
+        font-Size: 32px;
+        line-Height: 48px;
+        font-Weight: 600;
+        margin-Bottom: 20px;
+    }
+
+
+    .td {
+        padding: 10 0x;
+        width: 100%;
+        border: 1px solid black;
+        border-right: none;
+        border-left: none;
+        white-space: nowrap;
+    }
+
+
+    .left {
+        border-left: 0;
+        text-align: right;
+    }
+
+
+    .right {
+        border-right: 0;
+        text-align: left;
+    }
+
+
+    .info-table {
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 20px;
+        line-height: 32px;
+        font-weight: 600;
+    }
+
+
+    .button {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        letter-spacing: 0.2em;
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: bold;
+        text-transform: uppercase;
+        color: #fff;
+        background-color: #4F17EF;
+        border-style: none;
+        min-width: 208px;
+        padding: 18px;
+    }
+</style>
+<div class='mainLayout'>
+    <div class='title'><br>Гараж</div>
     {% for car in carlist %}
-    {%if car.vehicle_avatar is none%}
-    <div class="row">
-        <div class="col-4 align-self-center">
-            <img src="{{url_for('static', filename='default.svg')}}" width="750" class="card-img-top" alt="Avatar">
-        </div>
-        {%else%}
-        <div class="row">
-            <div class="col-4 align-self-center">
-                <img src="{{ url_for('upload', filename=car.vehicle_avatar) }}" width="1000" class="card-img-top"
-                    alt="Avatar">
-            </div>
+
+    <div class='itemRoot'>
+        <div class='imageBlock'>
+            {%if car.vehicle_avatar is none%}
+            <img src="{{url_for('static', filename='default.png')}}" class='image' />
+            {%else%}
+            <img src="{{ url_for('upload', filename=car.vehicle_avatar) }}" class='image' />
             {%endif%}
-            <div class="col-4 align-self-center">
-                <h3>{{ car.title }}</h3><br>
-                <h3>Производитель: {{car.manufacturer}}</h3>
-                <h3>Модель: {{car.model}}</h3>
-                <h3>Год выпуска: {{car.production_year}}</h3>
-                <h3> {{car.id}}</h3>
-            </div>
-            <div class="col-4 align-self-center">
-                <a href="{{ url_for('current_car', car_id=car.id) }}" class="btn btn-primary" role="button">Выбрать</a>
-            </div>
         </div>
-        <hr />
-        {% endfor %}
+        <div class='vehicleInfoBlock'>
+            <div class='type'>
+
+            </div>
+            <table class='info-table'>
+
+                <tr>
+                    <td class='td right'>Производитель</td>
+
+
+                    <td class='td left' display="flex" flex-direction="row">
+                        {{car.manufacturer}}
+                    </td>
+                </tr>
+                <tr>
+                    <td class='td right'>Модель</td>
+                    <td class='td left'>
+
+                        {{car.model}}
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class='td right'>Год выпуска</td>
+                    <td class='td left'>
+                        {{car.production_year}}
+                    </td>
+                </tr>
+
+            </table>
+            <a href="{{ url_for('current_car', car_id=car.id) }}" class="navigation-link">
+                <button class='button'>Выбрать</button>
+            </a>
+        </div>
     </div>
+    {% endfor %}
+
     {% endblock %}
+</div>
