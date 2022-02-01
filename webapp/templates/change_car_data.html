@@ -1,11 +1,14 @@
 {% extends 'base.html' %}
 {% block main %}
+
+<br><br><br>
 <div class="conteiner">
     <div class="row">
         <div class="col-4"></div>
         <div class="col-4">
             <h1>{{ page_title }}</h1>
-            <form action="{{ url_for('change_car_data_in_progress', car_id=car.id) }}" method="post" enctype="multipart/form-data">
+            <form action="{{ url_for('change_car_data_in_progress', car_id=car.id) }}" method="post"
+                enctype="multipart/form-data">
                 {{ form.hidden_tag() }}
                 <p><input type="file" name="file"></p><br>
                 <div class="form-group">

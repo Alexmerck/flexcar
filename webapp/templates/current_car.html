@@ -1,150 +1,10 @@
 {% extends 'base.html' %}
 {% block main %}
+{%include 'flash.html'%}
+
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename ='css/owndesign.css')}}">
 
 
-<link href="{{url_for('static', filename='fonts/roboto/stylesheet.css')}}" rel="stylesheet" type="text/css" />
-<style>
-    .mainLayout {
-        flex-grow: 1;
-        display: flex;
-        flex-direction: column;
-        min-height: 100%;
-        overflow: hidden;
-        background-color: #fff;
-        padding: 42px 122px 56px 122px
-    }
-
-    .title {
-        font-size: 32px;
-        font-weight: 800;
-        line-height: 48px;
-        text-align: left;
-    }
-
-
-    .itemRoot {
-        display: flex;
-        flex-direction: row;
-        background-color: #E8E8E8;
-        margin-bottom: 40px;
-    }
-
-
-    .imageBlock {
-        height: 380px;
-        max-width: 466px;
-        min-width: 466px;
-        object-fit: cover;
-    }
-
-
-    .image {
-        height: 100%;
-        width: 100%;
-    }
-
-
-    .vehicleInfoBlock {
-        box-sizing: border-box;
-        padding: 40px 142px 116px 121px;
-        width: 100%;
-        position: relative;
-    }
-
-    .eventInfoBlock {
-        box-sizing: border-box;
-        padding: 60px 142px 116px 121px;
-        width: 100%;
-        position: relative;
-    }
-
-    .type {
-        font-Size: 32px;
-        line-Height: 48px;
-        font-Weight: 600;
-        margin-Bottom: 20px;
-    }
-
-
-    .th {
-        background-color: #A2A2A2;
-    }
-
-    .td {
-        padding: 10 0x;
-        width: 100%;
-        border: 1px solid black;
-        border-right: none;
-        border-left: none;
-        white-space: nowrap;
-    }
-
-
-    .left {
-        border-left: 0;
-        text-align: right;
-    }
-
-
-    .right {
-        border-right: 0;
-        text-align: left;
-    }
-
-
-    .info-table {
-        border-collapse: collapse;
-        width: 100%;
-        font-size: 20px;
-        line-height: 32px;
-        font-weight: 600;
-    }
-
-
-    .button {
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        letter-spacing: 0.2em;
-        font-size: 16px;
-        line-height: 24px;
-        font-weight: bold;
-        text-transform: uppercase;
-        color: #fff;
-        background-color: #4F17EF;
-        border-style: none;
-        min-width: 208px;
-        padding: 18px;
-    }
-
-    .buttontop {
-        position: absolute;
-        right: 0;
-        top: 0;
-        letter-spacing: 0.2em;
-        font-size: 16px;
-        line-height: 24px;
-        font-weight: bold;
-        text-transform: uppercase;
-        color: #fff;
-        background-color: #EF1758;
-        border-style: none;
-        min-width: 208px;
-        padding: 18px;
-    }
-
-    .eventlink {
-        text-decoration: none;
-        color: #212529;
-
-    }
-
-    .eventlink:hover {
-        text-decoration: none;
-        color: #212529;
-
-    }
-</style>
 <div class='mainLayout'>
     <div class='title'><br>{{car.title}}</div>
 
@@ -210,6 +70,7 @@
             </table>
             <a href="{{ url_for('change_car_data', car_id=car.id) }}" class="navigation-link">
                 <button class='button'>Внести изменения</button>
+                <a href="{{ url_for('price_parser', car_id=car.id) }}" class="btn btn-primary">Узнать стоимость</a>
             </a>
         </div>
     </div>
@@ -228,14 +89,14 @@
                 {% if events %}
 
                 <th class="th right">2022 год</th>
-                <th class="th left"> 10512 р.</th>
+                <th class="th left"> {{charges_counter}} &#8381</th>
                 {% for event in events %}
                 <tr>
 
                     <td class='td right'> <a href="{{url_for('current_event', event_id=event.id)}}"
                             class="eventlink"><strong>{{event.title}}</strong>
                             <br>Пробег: {{event.milege}} км
-                            <br>Стоимость: {{event.charges}} р</a>
+                            <br>Стоимость: {{event.charges}} &#8381</a>
                     </td>
 
 
@@ -252,7 +113,7 @@
 
             </table>
             {%include 'event_creating.html'%}
-          
+
 
         </div>
     </div>
