@@ -1,79 +1,125 @@
 {% extends 'base.html' %}
 {% block main %}
-{% include 'flash.html' %}
-<div class="container">
-    <h1>{{car.title}}</h1>
-    {%if car.vehicle_avatar is none%}
-    <div class="row">
-        <div class="col-6 align-self-center">
-            <img src="{{url_for('static', filename='default.png')}}" width="400" class="rounded" alt="Avatar">
-        </div>
-        {%else%}
-        <div class="row">
-            <div class="col-6 align-self-center">
-                <img src="{{ url_for('upload', filename=car.vehicle_avatar) }}" width="400" class="rounded"
-                    alt="Avatar">
-            </div>
+{%include 'flash.html'%}
+
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename ='css/owndesign.css')}}">
+
+
+<div class='mainLayout'>
+    <div class='title'><br>{{car.title}}</div>
+
+
+    <div class='itemRoot'>
+        <div class='imageBlock'>
+            {%if car.vehicle_avatar is none%}
+            <img src="{{url_for('static', filename='default.png')}}" class='image' />
+            {%else%}
+            <img src="{{ url_for('upload', filename=car.vehicle_avatar) }}" class='image' />
             {%endif%}
-            <div class="col-2"></div>
-            <div class="col-4">
-                <div class="row justify-content-md-center"></div>
-                <h3>Информация об автомобиле:</h3>
-                <div class="row">
-                    <div class="col-6">
-                        <b> Производитель:</b><br>
-                        <b> Модель:</b><br>
-                        <b> Год выпуска:</b><br>
-                        <b> Тип кузова:</b><br>
-                        <b> Тип двигателя:</b><br>
-                        <b> Объем двигателя:</b><br>
-                    </div>
-                    <div class="col-6">
-                        <b> {{car.manufacturer}}</b><br>
-                        <b> {{car.model}}</b><br>
-                        <b> {{car.production_year}}</b><br>
-                        <b> {{car.body}}</b><br>
-                        <b> {{car.engine_type}}</b><br>
-                        <b> {{car.volume}}</b><br>
-                    </div>
-                </div>
-
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <a href="{{ url_for('change_car_data', car_id=car.id) }}" class="btn btn-primary">Внести
-                        изменения</a></b><br>
-                    <a href="{{ url_for('price_parser', car_id=car.id) }}" class="btn btn-primary">Узнать стоимость</a>
-                </div>
-            </div>
         </div>
-        <div class="row"><br><br></div>
+        <div class='vehicleInfoBlock'>
+            <div class='type'>
 
-
-        <div class="row">
-            <div class="col-4">
-                <b> Заметки по автомобилю {{car.title}}</b>
-                <a href="#" class="btn btn-primary">Добавить новую запись</a>
             </div>
-            <div class="col-6">
+            <table class='info-table'>
+
+                <tr>
+                    <td class='td right'>Производитель</td>
+
+
+                    <td class='td left' display="flex" flex-direction="row">
+                        {{car.manufacturer}}
+                    </td>
+                </tr>
+                <tr>
+                    <td class='td right'>Модель</td>
+                    <td class='td left'>
+
+                        {{car.model}}
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class='td right'>Год выпуска</td>
+                    <td class='td left'>
+                        {{car.production_year}}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class='td right'>Тип кузова</td>
+                    <td class='td left'>
+                        {{car.body}}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class='td right'>Год двигателя</td>
+                    <td class='td left'>
+                        {{car.engine_type}}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class='td right'>Объем двигателя</td>
+                    <td class='td left'>
+                        {{car.volume}} л
+                    </td>
+                </tr>
+
+            </table>
+            <a href="{{ url_for('change_car_data', car_id=car.id) }}" class="navigation-link">
+                <button class='button'>Внести изменения</button>
+                <a href="{{ url_for('price_parser', car_id=car.id) }}" class="btn btn-primary">Узнать стоимость</a>
+            </a>
+        </div>
+    </div>
+
+
+    <div class='title'>Заметки по автомобилю {{car.title}}</div>
+
+
+    <div class='itemRoot'>
+
+        <div class='eventInfoBlock'>
+            <div class='type'>
+
+            </div>
+            <table class='info-table'>
                 {% if events %}
+
+                <th class="th right">2022 год</th>
+                <th class="th left"> {{charges_counter}} &#8381</th>
                 {% for event in events %}
+                <tr>
 
-                <a href="{{url_for('current_event', event_id=event.id)}}"
-                    class="list-group-item list-group-item-action">
-                    <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">Событие: {{event.title}}</h5>
+                    <td class='td right'> <a href="{{url_for('current_event', event_id=event.id)}}"
+                            class="eventlink"><strong>{{event.title}}</strong>
+                            <br>Пробег: {{event.milege}} км
+                            <br>Стоимость: {{event.charges}} &#8381</a>
+                    </td>
 
-                        <small class="text-muted">Последняя запись: {{moment(event.published).format('LL')}}
-                        </small>
-                    </div>
-                    <p class="mb-1">Стоимость: {{event.charges}} р</p>
 
-                </a>
+                    <td class='td left' display="flex" flex-direction="row">
+                        {{moment(event.published).format('LL')}} <br>
+
+                    </td>
+                </tr>
+
                 {% endfor %}
                 {% else %}
                 <b> По данному автомобилю пока нет записей</b>
                 {% endif %}
-                <hr />
-            </div>
+
+            </table>
+            {%include 'event_creating.html'%}
+
+
         </div>
     </div>
+
+
+
+
     {% endblock %}
+</div>

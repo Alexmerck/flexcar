@@ -1,30 +1,56 @@
 {% extends 'base.html' %}
 {% block main %}
-<div class="container">
+
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename ='css/owndesign.css')}}">
+
+<div class='mainLayout'>
+    <div class='title'><br>Гараж</div>
     {% for car in carlist %}
-    {%if car.vehicle_avatar is none%}
-    <div class="row">
-        <div class="col-4 align-self-center">
-            <img src="{{url_for('static', filename='default.png')}}" width="750" class="card-img-top" alt="Avatar">
-        </div>
-        {%else%}
-        <div class="row">
-            <div class="col-4 align-self-center">
-                <img src="{{ url_for('upload', filename=car.vehicle_avatar) }}" width="1000" class="card-img-top"
-                    alt="Avatar">
-            </div>
+
+    <div class='itemRoot'>
+        <div class='imageBlock'>
+            {%if car.vehicle_avatar is none%}
+            <img src="{{url_for('static', filename='default.png')}}" class='image' />
+            {%else%}
+            <img src="{{ url_for('upload', filename=car.vehicle_avatar) }}" class='image' />
             {%endif%}
-            <div class="col-4 align-self-center">
-                <h3>{{ car.title }}</h3><br>
-                <h3>Производитель: {{car.manufacturer}}</h3>
-                <h3>Модель: {{car.model}}</h3>
-                <h3>Год выпуска: {{car.production_year}}</h3>
-            </div>
-            <div class="col-4 align-self-center">
-                <a href="{{ url_for('current_car', car_id=car.id) }}" class="btn btn-primary" role="button">Выбрать</a>
-            </div>
         </div>
-        <hr />
-        {% endfor %}
+        <div class='vehicleInfoBlock'>
+            <div class='type'>
+
+            </div>
+            <table class='info-table'>
+
+                <tr>
+                    <td class='td right'>Производитель</td>
+
+
+                    <td class='td left' display="flex" flex-direction="row">
+                        {{car.manufacturer}}
+                    </td>
+                </tr>
+                <tr>
+                    <td class='td right'>Модель</td>
+                    <td class='td left'>
+
+                        {{car.model}}
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class='td right'>Год выпуска</td>
+                    <td class='td left'>
+                        {{car.production_year}}
+                    </td>
+                </tr>
+
+            </table>
+            <a href="{{ url_for('current_car', car_id=car.id) }}" class="navigation-link">
+                <button class='button'>Выбрать</button>
+            </a>
+        </div>
     </div>
+    {% endfor %}
+
     {% endblock %}
+</div>

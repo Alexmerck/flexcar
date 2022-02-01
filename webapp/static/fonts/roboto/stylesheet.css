@@ -1,0 +1,192 @@
+@font-face {
+    font-family: 'Galatea';
+    src: url('Galatea-ExtraBoldItalic.eot');
+    src: local('Galatea Extra Bold Italic'), local('Galatea-ExtraBoldItalic'),
+        url('Galatea-ExtraBoldItalic.eot?#iefix') format('embedded-opentype'),
+        url('Galatea-ExtraBoldItalic.woff2') format('woff2'),
+        url('Galatea-ExtraBoldItalic.woff') format('woff'),
+        url('Galatea-ExtraBoldItalic.ttf') format('truetype');
+    font-weight: 800;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Galatea';
+    src: url('Galatea-ThinItalic.eot');
+    src: local('Galatea Thin Italic'), local('Galatea-ThinItalic'),
+        url('Galatea-ThinItalic.eot?#iefix') format('embedded-opentype'),
+        url('Galatea-ThinItalic.woff2') format('woff2'),
+        url('Galatea-ThinItalic.woff') format('woff'),
+        url('Galatea-ThinItalic.ttf') format('truetype');
+    font-weight: 100;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Galatea';
+    src: url('Galatea-Italic.eot');
+    src: local('Galatea Italic'), local('Galatea-Italic'),
+        url('Galatea-Italic.eot?#iefix') format('embedded-opentype'),
+        url('Galatea-Italic.woff2') format('woff2'),
+        url('Galatea-Italic.woff') format('woff'),
+        url('Galatea-Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Galatea';
+    src: url('Galatea-BoldItalic.eot');
+    src: local('Galatea Bold Italic'), local('Galatea-BoldItalic'),
+        url('Galatea-BoldItalic.eot?#iefix') format('embedded-opentype'),
+        url('Galatea-BoldItalic.woff2') format('woff2'),
+        url('Galatea-BoldItalic.woff') format('woff'),
+        url('Galatea-BoldItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Galatea';
+    src: url('Galatea-Medium.eot');
+    src: local('Galatea Medium'), local('Galatea-Medium'),
+        url('Galatea-Medium.eot?#iefix') format('embedded-opentype'),
+        url('Galatea-Medium.woff2') format('woff2'),
+        url('Galatea-Medium.woff') format('woff'),
+        url('Galatea-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Galatea';
+    src: url('Galatea-ExtraBold.eot');
+    src: local('Galatea Extra Bold'), local('Galatea-ExtraBold'),
+        url('Galatea-ExtraBold.eot?#iefix') format('embedded-opentype'),
+        url('Galatea-ExtraBold.woff2') format('woff2'),
+        url('Galatea-ExtraBold.woff') format('woff'),
+        url('Galatea-ExtraBold.ttf') format('truetype');
+    font-weight: 800;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Galatea';
+    src: url('Galatea-Regular.eot');
+    src: local('Galatea Regular'), local('Galatea-Regular'),
+        url('Galatea-Regular.eot?#iefix') format('embedded-opentype'),
+        url('Galatea-Regular.woff2') format('woff2'),
+        url('Galatea-Regular.woff') format('woff'),
+        url('Galatea-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Galatea';
+    src: url('Galatea-ExtraLight.eot');
+    src: local('Galatea Extra Light'), local('Galatea-ExtraLight'),
+        url('Galatea-ExtraLight.eot?#iefix') format('embedded-opentype'),
+        url('Galatea-ExtraLight.woff2') format('woff2'),
+        url('Galatea-ExtraLight.woff') format('woff'),
+        url('Galatea-ExtraLight.ttf') format('truetype');
+    font-weight: 200;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Galatea';
+    src: url('Galatea-BlackItalic.eot');
+    src: local('Galatea Black Italic'), local('Galatea-BlackItalic'),
+        url('Galatea-BlackItalic.eot?#iefix') format('embedded-opentype'),
+        url('Galatea-BlackItalic.woff2') format('woff2'),
+        url('Galatea-BlackItalic.woff') format('woff'),
+        url('Galatea-BlackItalic.ttf') format('truetype');
+    font-weight: 900;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Galatea';
+    src: url('Galatea-MediumItalic.eot');
+    src: local('Galatea Medium Italic'), local('Galatea-MediumItalic'),
+        url('Galatea-MediumItalic.eot?#iefix') format('embedded-opentype'),
+        url('Galatea-MediumItalic.woff2') format('woff2'),
+        url('Galatea-MediumItalic.woff') format('woff'),
+        url('Galatea-MediumItalic.ttf') format('truetype');
+    font-weight: 500;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Galatea';
+    src: url('Galatea-ExtraLightItalic.eot');
+    src: local('Galatea Extra Light Italic'), local('Galatea-ExtraLightItalic'),
+        url('Galatea-ExtraLightItalic.eot?#iefix') format('embedded-opentype'),
+        url('Galatea-ExtraLightItalic.woff2') format('woff2'),
+        url('Galatea-ExtraLightItalic.woff') format('woff'),
+        url('Galatea-ExtraLightItalic.ttf') format('truetype');
+    font-weight: 200;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Galatea';
+    src: url('Galatea-LightItalic.eot');
+    src: local('Galatea Light Italic'), local('Galatea-LightItalic'),
+        url('Galatea-LightItalic.eot?#iefix') format('embedded-opentype'),
+        url('Galatea-LightItalic.woff2') format('woff2'),
+        url('Galatea-LightItalic.woff') format('woff'),
+        url('Galatea-LightItalic.ttf') format('truetype');
+    font-weight: 300;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Galatea';
+    src: url('Galatea-Black.eot');
+    src: local('Galatea Black'), local('Galatea-Black'),
+        url('Galatea-Black.eot?#iefix') format('embedded-opentype'),
+        url('Galatea-Black.woff2') format('woff2'),
+        url('Galatea-Black.woff') format('woff'),
+        url('Galatea-Black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Galatea';
+    src: url('Galatea-Thin.eot');
+    src: local('Galatea Thin'), local('Galatea-Thin'),
+        url('Galatea-Thin.eot?#iefix') format('embedded-opentype'),
+        url('Galatea-Thin.woff2') format('woff2'),
+        url('Galatea-Thin.woff') format('woff'),
+        url('Galatea-Thin.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Galatea';
+    src: url('Galatea-Light.eot');
+    src: local('Galatea Light'), local('Galatea-Light'),
+        url('Galatea-Light.eot?#iefix') format('embedded-opentype'),
+        url('Galatea-Light.woff2') format('woff2'),
+        url('Galatea-Light.woff') format('woff'),
+        url('Galatea-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Galatea-bold';
+    src: url('Galatea-Bold.eot');
+    src: local('Galatea Bold'), local('Galatea-Bold'),
+        url('Galatea-Bold.eot?#iefix') format('embedded-opentype'),
+        url('Galatea-Bold.woff2') format('woff2'),
+        url('Galatea-Bold.woff') format('woff'),
+        url('Galatea-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+

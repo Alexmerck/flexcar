@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block main %}
+<br>
+<br>
+<br>
+<div class="conteiner">
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4">
+            <h1>{{ page_title }}</h1>
+            <form action="{{ url_for('change_event_data_process', event_id=event.id) }}" method="post"
+                enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+
+                <div class="form-group">
+                    {{ form.title.label }}<br>
+                    {{ form.title()}}
+                    <hr>
+                </div>
+                <div class="form-group">
+                    {{ form.charges.label }}<br>
+                    {{ form.charges()}}
+                    <hr>
+                </div>
+                <div class="form-group">
+                    {{ form.milege.label }}<br>
+                    {{ form.milege()}}
+                    <hr>
+                </div>
+                <div class="form-group">
+                    {{ form.description.label }}<br>
+                    {{ form.description()}}
+                    <hr>
+                </div>
+                {{ form.car_title() }}
+
+
+
+                {{ form.submit() }}
+            </form>
+        </div>
+        <div class="col-4"></div>
+    </div>
+</div>
+
+{% endblock %}

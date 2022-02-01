@@ -77,12 +77,13 @@ def logout():
 def usercar():
     user_id = current_user.id
     carlist =  Vehicle.query.filter_by(user_id=user_id).all()
-    return render_template('usercars.html', title='GARAGE', user=current_user, carlist=carlist)
+    events = Event.query.filter_by(user_id=user_id).first()
+    return render_template('usercars.html', title='GARAGE', user=current_user, carlist=carlist, events=events)
 
 
 @app.route('/get_manufacturer')
 def get_manufacturer():
-    title = 'Заполнение поля производителя автомобиля'
+    title = 'Добавление нового авто'
     form = ManufacturerForm()
     return render_template('get_manufacturer.html', title=title, form=form)
 
@@ -135,11 +136,9 @@ def events():
         flash('Чтобы добавлять события, необходимо сначала добавить автомобиль')       
     if events == None:
         flash('Вы еще не добавили ни одного события')  
-    return render_template('events.html', title=title, form=form, user=current_user, events=events, vehicles=vehicles)
+    return render_template('events.html', title=title, form=form, user=current_user, events=events, vehicles=vehicles, redirect_to = 'events')
     
     
- 
-
 @app.route ('/process_event', methods=['POST'])
 @login_required
 def creating():
@@ -157,7 +156,7 @@ def creating():
         )
         db.session.add(event)
         db.session.commit()
-        return redirect(url_for('events'))
+        return redirect(url_for(request.form['redirect_to'], car_id = form.car_title.data))
 
 
 @app.route('/uploads/<filename>')
@@ -168,9 +167,17 @@ def upload(filename):
 @app.route('/current_car/<car_id>')
 def current_car(car_id):
     title = 'Карточка автомобиля'
+    form = EventForm()
+    available_vehicles=db.session.query(Vehicle).filter(Vehicle.user_id == current_user.id).all()
+    form.car_title.choices = [(i.id, i.title) for i in available_vehicles]
     car =  Vehicle.query.filter_by(id=car_id).first()
     events = Event.query.filter_by(vehicle_id=car_id).all()
-    return render_template('current_car.html', title=title, car=car, events=events)    
+    
+    charges_counter = 0
+    for event in events:
+        charges_counter += event.charges
+    
+    return render_template('current_car.html', title=title, car=car, events=events, form=form, redirect_to = 'current_car', charges_counter=charges_counter)    
 
 
 @app.route('/change_car_data/<car_id>')
@@ -208,9 +215,7 @@ def change_car_data_in_progress(car_id):
         else:
             car.vehicle_avatar=car.vehicle_avatar
         db.session.commit()
-        title = 'Карточка автомобиля'
-        events = Event.query.filter_by(vehicle_id=car_id).all()
-        return render_template('current_car.html', title=title, car=car, events=events)
+        return redirect(url_for('current_car', car_id = car.id))
 
 @app.route('/current_event/<event_id>')
 def current_event(event_id):
@@ -219,6 +224,39 @@ def current_event(event_id):
     return render_template('current_event.html', title=title, event=event) 
 
 
+@app.route('/change_event_data/<event_id>')
+def change_event_data(event_id):
+    title = 'Изменение события'
+    event = Event.query.filter_by(id=event_id).first()
+    car = Vehicle.query.get(event.vehicle_id)
+    form = EventForm(
+        title = event.title,
+        charges = event.charges,
+        milege = event.milege,
+        description = event.description,
+    )
+    form.car_title.choices = [(car.title, car.title)]
+     
+    return render_template ('change_event_data.html', title=title, event=event, form=form)
+
+
+@app.route('/change_event_data_process/<event_id>', methods=["POST"])
+def change_event_data_process(event_id):
+    print(request.form)
+    
+    event = Event.query.filter_by(id=event_id).first()
+    car = Vehicle.query.get(event.vehicle_id)
+    form = EventForm()
+    form.car_title.choices = [(car.title, car.title)]
+    if form.validate_on_submit():
+        event.title = form.title.data
+        event.description = form.description.data
+        event.charges = form.charges.data
+        event.milege = form.milege.data
+        event.car_title = form.car_title.data
+        db.session.commit()
+          
+    return redirect(url_for('current_event', event_id = event.id))
 @app.route('/price_parser/<car_id>')
 @login_required
 def price_parser(car_id):

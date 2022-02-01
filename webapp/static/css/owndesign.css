@@ -1,0 +1,231 @@
+@font-face {
+  font-family: Poppins-Regular;
+  src: url('../fonts/roboto/stylesheet.css'); 
+}
+    .mainLayout {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 100%;
+        overflow: hidden;
+        background-color: #fff;
+        padding: 42px 122px 56px 122px
+    }
+
+    .title {
+        font-size: 32px;
+        font-weight: 800;
+        line-height: 48px;
+        text-align: left;
+    }
+
+
+    .itemRoot {
+        display: flex;
+        flex-direction: row;
+        background-color: #E8E8E8;
+        margin-bottom: 40px;
+    }
+
+
+    .imageBlock {
+        height: 380px;
+        max-width: 466px;
+        min-width: 466px;
+        object-fit: cover;
+    }
+
+
+    .image {
+        height: 100%;
+        width: 100%;
+    }
+
+
+    .vehicleInfoBlock {
+        box-sizing: border-box;
+        padding: 40px 142px 116px 121px;
+        width: 100%;
+        position: relative;
+    }
+
+    .eventInfoBlock {
+        box-sizing: border-box;
+        padding: 60px 142px 116px 121px;
+        width: 100%;
+        position: relative;
+    }
+
+    .type {
+        font-Size: 32px;
+        line-Height: 48px;
+        font-Weight: 600;
+        margin-Bottom: 20px;
+    }
+
+
+    .th {
+        background-color: #A2A2A2;
+    }
+
+    .td {
+        padding: 10 0x;
+        width: 100%;
+        border: 1px solid black;
+        border-right: none;
+        border-left: none;
+        white-space: nowrap;
+    }
+
+
+    .left {
+        border-left: 0;
+        text-align: right;
+    }
+
+
+    .right {
+        border-right: 0;
+        text-align: left;
+    }
+
+
+    .info-table {
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 20px;
+        line-height: 32px;
+        font-weight: 600;
+    }
+
+
+    .button {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        letter-spacing: 0.2em;
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: bold;
+        text-transform: uppercase;
+        color: #fff;
+        background-color: #4F17EF;
+        border-style: none;
+        min-width: 208px;
+        padding: 18px;
+    }
+
+    .buttontop {
+        position: absolute;
+        right: 0;
+        top: 0;
+        letter-spacing: 0.2em;
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: bold;
+        text-transform: uppercase;
+        color: #fff;
+        background-color: #EF1758;
+        border-style: none;
+        min-width: 208px;
+        padding: 18px;
+    }
+
+    .eventlink {
+        text-decoration: none;
+        color: #212529;
+
+    }
+
+    .eventlink:hover {
+        text-decoration: none;
+        color: #212529;
+
+    }
+
+
+    .header {
+        padding: 6px 0 2px 0;
+        background-color: #4F17EF;
+        width: 100%;
+        display: flex;
+        position: fixed;
+        top: 0;
+        left: auto;
+        right: 0;
+        align-items: stretch;
+        z-index: 1000;
+    }
+
+
+    .navItems {
+
+        display: flex;
+        flex-direction: row;
+        color: white;
+        width: 100%;
+        justify-content: space-between;
+        font-size: 20px;
+        line-height: 32px;
+    }
+
+    .navItems>div>a {
+        margin-left: 30px;
+    }
+
+
+
+
+
+    .navigation {
+        max-width: 1196px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+
+
+    .logo {
+        font-family: 'Galatea-bold';
+        font-weight: 400;
+        font-size: 48px;
+        line-height: 52px;
+        color: white;
+        margin-right: 40px;
+    }
+
+
+    .navItemAddon {
+
+        position: relative;
+    }
+
+    .navItemAddon::after {
+        position: absolute;
+        content: "+";
+        background-color: #fff;
+        width: 20px;
+        height: 20px;
+        color: #4F17EF;
+        text-align: center;
+        margin: 0 auto;
+        top: 20%;
+        font-weight: 700;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .link {
+        text-decoration: none;
+        color: white;
+
+    }
+
+    .link:hover {
+        text-decoration: none;
+        color: white;
+
+    }

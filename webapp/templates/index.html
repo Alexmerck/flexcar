@@ -2,7 +2,56 @@
 {% block main %}
 {% include 'flash.html' %}
 
-<body>
-    <h1>Привет, {{current_user.username.capitalize()}}!</h1>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>{{title}}</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="{{url_for('static', filename ='css/styles.css')}}" rel="stylesheet" />
+</head>
+
+<body id="page-top">
+
+    <!-- Header-->
+    <header class="bg-primary bg-gradient text-white">
+        <div class="container px-4 text-center">
+            <h1 class="fw-bolder">Привет, {{current_user.username.capitalize()}}!</h1>
+            <p class="lead">Flexcar - дневник автомобилиста</p>
+            <a class="btn btn-lg btn-light" href="{{url_for('usercar')}}">В гараж</a>
+        </div>
+    </header>
+    <!-- About section-->
+    <section id="about">
+        <div class="container px-4">
+            <div class="row gx-4 justify-content-center">
+                <div class="col-lg-8">
+                    <h2>О сервисе</h2>
+                    <p class="lead">Flexcar - сервис для хранения истории
+                        обслуживания вашего автомобиля, который вы долгое время искали.
+                    <p>
+                    <p><b>Функционал сервиса:</b></p>
+                    <ul>
+                        <li>Добавить полную информации об автомобиле</li>
+                        <li>Создавать и отслеживаться события</li>
+                        <li>Контролировать расходы по каждому автомобилю</li>
+                        <li>Смотреть историю обслуживания и ремонтов</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer-->
+    <footer class="py-5 bg-dark">
+        <div class="container px-4">
+            <p class="m-0 text-center text-white">Copyright &copy; Flexcar 2021</p>
+        </div>
+    </footer>
+
 </body>
+
+
 {% endblock %}

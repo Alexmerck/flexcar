@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from werkzeug.wrappers import request
 from wtforms import BooleanField, StringField, PasswordField, SubmitField, IntegerField, TextAreaField
-from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
+from wtforms.validators import DataRequired, ValidationError, Email, EqualTo, Length
 from webapp.models import User 
 from wtforms.fields.choices import SelectField
 from webapp import db
@@ -82,8 +82,8 @@ class VehicleForm(FlaskForm):
     manufacturer = StringField(render_kw={"class":"form-control", 'readonly': True})
     model = SelectField(render_kw={"class":"form-control"})
     production_year = IntegerField(render_kw={"class":"form-control"})
-    engine_type = SelectField(render_kw={"class":"form-control"})
-    volume = IntegerField(render_kw={"class":"form-control"})
+    engine_type = SelectField( render_kw={"class":"form-control"})
+    volume = IntegerField(validators=[DataRequired(), Length(min=2)],render_kw={"class":"form-control"})
     transmission_type = SelectField(render_kw={"class":"form-control"})
     body = SelectField(render_kw={"class":"form-control"})
           
