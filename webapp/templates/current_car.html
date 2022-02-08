@@ -2,21 +2,21 @@
 {% block main %}
 {% include 'flash.html' %}
 <div class="container">
-    <h1>{{car.title}}</h1>
+    <h2>{{car.title}}</h2>
     {%if car.vehicle_avatar is none%}
     <div class="row">
-        <div class="col-6 align-self-center">
+        <div class="col-5 align-self-center">
             <img src="{{url_for('static', filename='default.png')}}" width="400" class="rounded" alt="Avatar">
         </div>
-        {%else%}
+    {%else%}
         <div class="row">
-            <div class="col-6 align-self-center">
+            <div class="col-5 align-self-center">
                 <img src="{{ url_for('upload', filename=car.vehicle_avatar) }}" width="400" class="rounded"
                     alt="Avatar">
             </div>
-            {%endif%}
-            <div class="col-2"></div>
-            <div class="col-4">
+    {%endif%}
+            
+            <div class="col-5">
                 <div class="row justify-content-md-center"></div>
                 <h3>Информация об автомобиле:</h3>
                 <div class="row">
@@ -35,12 +35,18 @@
                         <b> {{car.body}}</b><br>
                         <b> {{car.engine_type}}</b><br>
                         <b> {{car.volume}}</b><br>
+                        <br>
                     </div>
                 </div>
-
+                
+            </div>
+            <div class="col-2">
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                     <a href="{{ url_for('change_car_data', car_id=car.id) }}" class="btn btn-primary">Внести
-                        изменения</a></b><br>
+                        изменения</a></b>
+                </div>
+                <br><br>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                     <a href="{{ url_for('price_parser', car_id=car.id) }}" class="btn btn-primary">Узнать стоимость</a>
                 </div>
             </div>

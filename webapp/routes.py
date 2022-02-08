@@ -82,7 +82,7 @@ def usercar():
 
 @app.route('/get_manufacturer')
 def get_manufacturer():
-    title = 'Заполнение поля производителя автомобиля'
+    title = 'Добавление нового автомобиля'
     form = ManufacturerForm()
     return render_template('get_manufacturer.html', title=title, form=form)
 
@@ -222,11 +222,11 @@ def current_event(event_id):
 @app.route('/price_parser/<car_id>')
 @login_required
 def price_parser(car_id):
-    title = 'Cтоимость автомобиля на рынке б/у автомобилей'
     car =  Vehicle.query.filter_by(id=car_id).first()
     manufacturer = car.manufacturer.lower()
     model = car.model.lower()
     production_year = car.production_year
+    title = f'Cтоимость автомобиля {car.manufacturer} {car.model} {car.production_year} года на рынке'
     try:
         price_list = parser_prices(manufacturer, model, production_year)
         mid_price = locale.format('%d', round(mean(price_list)), grouping=True)
